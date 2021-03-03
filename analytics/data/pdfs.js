@@ -112,6 +112,8 @@ module.exports = {
                     let sessionDuration = []
                     let popularMoods = []
                     let popularCarousels = []
+                    let playout = []
+                    let chromecast = []
 
                     data.pages.forEach(function (i) {
                         const content = i.content
@@ -125,6 +127,8 @@ module.exports = {
                                 playback = player.values(content) || playback
                                 popularCarousels = carousels.normal(content) || popularCarousels
                                 popularMoods = carousels.mood(content) || popularMoods
+                                playout = player.playout(content) || playout
+                                chromecast = player.chromecastPlayout(content) || chromecast
                             }
 
                             if (content.filter(v => v.str.includes('Sports section')).length > 0) {
@@ -148,7 +152,9 @@ module.exports = {
                             sessions: sessionDuration,
                             player: playback,
                             moods: popularMoods,
-                            carousels: popularCarousels
+                            carousels: popularCarousels,
+                            playout: playout,
+                            chromecastPlayout: chromecast
                         }
                     )
                 })

@@ -7,7 +7,41 @@ const PLAYBACK_INCREMENT_OFFSET = 2
 const PLAYOUT_COLUMNS = 4
 const PLAYOUT_AMOUNT = 3
 const PLAYOUT_OFFSET = 2
-const PLAYOUT_AMOUNT_OFFSET = 2
+
+const CONTENT_TYPES = 4
+
+function isNumber(value) {
+    if (typeof value != "string") return false
+    value = value.replace(/,/g, '')
+
+    return !isNaN(value) && !isNaN(parseFloat(value))
+}
+
+function processType(items) {
+    const names = items.slice(0, CONTENT_TYPES).map(
+        e => e.str.replace("Type=", "")
+            .replace("LiveTV", "Live TV")
+            .replace("CatchUp", "Catchup")
+            .replace("Recording", "Recordings")
+    )
+
+    let index = items.length - 1
+
+    while (!isNumber(items[index].str)) { index-- }
+
+    const values = items.slice(index - CONTENT_TYPES + 1 , index + 1)
+
+    if (values.filter(e => !isNumber(e.str)).length > 0) {
+        return undefined
+    } else {
+        return values.map((e, i) => {
+            return {
+                name: names[i],
+                amount: e.str.replace(/,/g, '.')
+            }
+        })
+    }
+}
 
 module.exports = {
     values: function (content) {
@@ -29,7 +63,6 @@ module.exports = {
             increment: PLAYBACK_COLUMNS * PLAYBACK_INCREMENT_OFFSET
         })
 
-
         if (result === undefined) return result
 
         return result.map(
@@ -49,20 +82,13 @@ module.exports = {
             order: false,
             offset: PLAYOUT_OFFSET,
             amount: PLAYOUT_AMOUNT * PLAYOUT_COLUMNS + 1
-        }).filter((e, i) => i !== PLAYOUT_COLUMNS)
-
-        return common.map(items, (items, index) => {
-            return {
-                name: items[index].str.replace("Type=", "")
-                    .replace("LiveTV", "Live TV")
-                    .replace("CatchUp", "Catchup")
-                    .replace("Recording", "Recordings"),
-                amount: items[index + PLAYOUT_COLUMNS * PLAYOUT_AMOUNT_OFFSET].str.replace(/,/g, '.')
-            }
-        }, {
-            amount: PLAYOUT_COLUMNS,
-            increment: 1
         })
+
+        if (items === undefined || items.length > 0 && items[0].str !== "Type=LiveTV") {
+            return undefined
+        }
+
+        return processType(items)
     },
     chromecastPlayout: function (content) {
         const items = common.filter(content, {
@@ -71,20 +97,13 @@ module.exports = {
             filter: (e) => e !== ' ',
             order: false,
             offset: PLAYOUT_OFFSET,
-            amount: PLAYOUT_AMOUNT * PLAYOUT_COLUMNS
+            amount: PLAYOUT_AMOUNT * PLAYOUT_COLUMNS + 1
         })
 
-        return common.map(items, (items, index) => {
-            return {
-                name: items[index].str.replace("Type=", "")
-                    .replace("LiveTV", "Live TV")
-                    .replace("CatchUp", "Catchup")
-                    .replace("Recording", "Recordings"),
-                amount: items[index + PLAYOUT_COLUMNS * PLAYOUT_AMOUNT_OFFSET].str.replace(/,/g, '.')
-            }
-        }, {
-            amount: PLAYOUT_COLUMNS,
-            increment: 1
-        })
+        if (items === undefined || items.length > 0 && items[0].str !== "Type=LiveTV") {
+            return undefined
+        }
+
+        return processType(items)
     }
 }

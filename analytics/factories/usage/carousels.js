@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.carousels !== undefined
+        return data !== undefined && data.carousels !== undefined && data.carousels.length > 0
     }
 }

@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.moods !== undefined
+        return data !== undefined && data.moods !== undefined && data.moods.length > 0
     }
 }
