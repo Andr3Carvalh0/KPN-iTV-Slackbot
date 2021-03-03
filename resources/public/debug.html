@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <script>
+            const route = new Map([
+                ["build", "Build Report"],
+                ["error", "Error Report"],
+                ["merge", "Merge Request Hook"],
+                ["note", "Note Hook"],
+                ["tests", "Unit Tests"],
+                ["firebase", "Scheduler Task"],
+                ["halo", "Scheduler Task"],
+                ["ios", "Scheduler Task"],
+                ["maintenance", "Scheduler Task"],
+                ["playstore", "Scheduler Task"],
+                ["reports", "Scheduler Task"],
+                ["rollout", "Scheduler Task"]
+            ])
+
+            function notify() {
+                const _class = document.getElementById('classFile').value;
+                const reason = document.getElementById('reason').value;
+
+                if (_class.length > 0 && reason.length > 0 ) {
+                    fetch("/", {
+                        method: "POST",
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-iTV-Event': "Index Exception"
+                        },
+                        body: JSON.stringify({
+                            file: _class,
+                            cause: reason
+                        })
+                    }).then(response => {
+                        if (!response.ok) { throw Error(response.statusMessage)}
+
+                        response.json().then(v => {
+                            document.getElementById('classFile').value = ""
+                            document.getElementById('reason').value = ""
+
+                            console(v.message)
+                            toast(`Added!`)
+                        })
+                    }).catch((err) => {
+                        document.getElementById('classFile').value = ""
+                        document.getElementById('reason').value = ""
+
+                        console(err)
+                        toast(`Something went wrong...`)
+                    })
+
+
+                } else {
+                    const type = document.querySelectorAll('input[name="type"]:checked')[0].value
+
+                    const event = route.get(type)
+                    const data = {
+                        user: {
+                            name: "André Carvalho"
+                        },
+                        merge_request: {
+                            title: "This is a test of a merge request. (KPN-123)"
+                        },
+                        project: {
+                            id: -999,
+                            name: "Frits"
+                        },
+                        object_attributes: {
+                            action: "open",
+                            title: "Title of the merge request (KPN-123)",
+                            description: "Test 1, 2, 3. Test 1, 2, 3.",
+                            note: "This is a test of a comment. You should use the keyword @volatile, to fix KPN-123. Like this ```@volatile\nfun test()```",
+                            url: "https://www.kpn.com/",
+                            target_branch: "develop",
+                            source_branch: "release"
+                        },
+                        message: {
+                            variant: "Frits",
+                            branch: "release",
+                            versionName: "7.x.x",
+                            versionCode: "27",
+                            changelog: "This is a test\n* of a changelog\ntemplate message",
+                            download: "https://www.kpn.com/"
+                        },
+                        total: 99,
+                        success: 0,
+                        skipped: 0,
+                        failed: 99,
+                        time: 10827,
+                        branch: "develop",
+                        title: "This is a test title",
+                        reason: "Something weird happened...\nfatal: Not a valid object name develop",
+                        type: type
+                    }
+
+                    toast(`Processing...`)
+
+                    fetch("/", {
+                        method: "POST",
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-iTV-Event': event,
+                            'X-Gitlab-Event': event
+                        },
+                        body: JSON.stringify(data)
+                    }).then(response => {
+                        if (!response.ok) { throw Error(response.statusMessage)}
+
+                        response.json().then(v => {
+                            console(v.message)
+                            toast(`Posted!`)
+                        })
+                    }).catch((err) => {
+                        console(err)
+                        toast(`Something went wrong...`)
+                    })
+                }
+            }
+
+            function console(text) {
+                document.getElementById('result').value = `${document.getElementById('result').value}${text}\n`
+                M.textareaAutoResize(document.getElementById('result'));
+            }
+
+            function toast(text) {
+                M.toast({html: text})
+            }
+
+        </script>
+        <title>Debug 🐞</title>
+    </head>
+    <body style="background-color:#F2EFE9;">
+
+        <div class="container">
+            <div class="row">
+                <h1><strong>Debug 🐞</strong></h1>
+            </div>
+
+            <div class="row">
+                <div class="col s4">
+                    <label>Message type:</label>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="build" checked />
+                            <span>Build</span>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="error" />
+                            <span>Error</span>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="merge" />
+                            <span>Merge</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s4">
+                    <label>&zwnj;</label>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="note" />
+                            <span>Notes</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="tests" />
+                            <span>Tests</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="input-field col s4">
+                    <label>HTTP responses:</label>
+                    <textarea placeholder="" class="materialize-textarea" id="result"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s4">
+                    <label>Trigger tasks:</label>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="ios" />
+                            <span>App Store Reviews</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="firebase" />
+                            <span>Firebase Alerts & Crashes</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="reports" />
+                            <span>Friday Reports</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="halo" />
+                            <span>Halo Image Cache</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s4">
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="maintenance" />
+                            <span>Maintenance</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="playstore" />
+                            <span>Play Store Rating & Reviews</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="type" type="radio" value="rollout" />
+                            <span>Play Store Rollout</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s4">
+                    <label>Add known exceptions:</label>
+                    <p>
+                        <div class="input-field">
+                            <input placeholder="Class" id="classFile" type="text" class="validate">
+                        </div>
+                    </p>
+                    <p>
+                        <div class="input-field">
+                            <input placeholder="Reason" id="reason" type="text" class="validate">
+                        </div>
+                    </p>
+                </div>
+            </div>
+
+            <div class="fixed-action-btn" onclick="notify()">
+                <a class="btn-floating btn-large red">
+                    <i class="large material-icons">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

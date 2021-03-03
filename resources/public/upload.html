@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <script>
+            function ask() {document.getElementById('apk').click() }
+
+            function upload() {
+                const brand = document.querySelectorAll('input[name="brand"]:checked')[0].value
+                const variant = document.querySelectorAll('input[name="variant"]:checked')[0].value
+                const channel = document.querySelectorAll('input[name="channel"]:checked')[0].value
+                const index = document.querySelectorAll('input[name="index"]:checked')[0].value === "true"
+
+
+                const code = document.getElementById('code').value
+                const name = document.getElementById('name').value
+                const changelog = document.getElementById('changelog').value
+
+                const apkContainer = document.getElementById('apk')
+
+                if (!hasFile(apkContainer)) {
+                    M.toast( {html: 'You must upload an .apk file!'})
+                } else {
+                    const data = new FormData()
+
+                    data.append("variant", variant)
+                    data.append("versionName", name)
+                    data.append("versionCode", code)
+                    data.append("changelog", changelog)
+                    data.append("brand", brand)
+                    data.append("channel", channel)
+                    data.append("index", index)
+                    data.append("apk", apkContainer.files[0])
+
+                    toast(`Processing...`)
+
+                    fetch("/", {
+                        method: "POST",
+                        credentials: 'include',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-iTV-Event': 'Manual Build Report'
+                        },
+                        body: data
+                    }).then(response => {
+                        if (!response.ok) { throw Error(response.statusText)}
+
+                        toast(`Done!`)
+                    }).catch(() => {
+                        toast(`Something went wrong...`)
+                    })
+                }
+            }
+
+            function toast(text) {
+                M.toast({html: text})
+            }
+
+            function hasFile(view) { return view.files.length > 0 }
+
+        </script>
+        <title>Frits ‍👩‍🔬</title>
+    </head>
+    <body style="background-color:#F2EFE9;">
+        <div class="file-field input-field" style="visibility:hidden">
+            <div class="btn">
+                <span>APK file</span>
+                <input id="apk" type="file" accept="application/vnd.android.package-archive" onchange="upload()">
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <h1><strong>Frits ‍👩‍🔬</strong></h1>
+            </div>
+
+            <form action="#">
+                <div class="row">
+                    <div class="col s4">
+                        <label>Application brand:</label>
+                        <p>
+                            <label>
+                                <input class="with-gap" name="brand" type="radio" value="KPN" />
+                                <span>KPN</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="brand" type="radio" value="Telfort" checked />
+                                <span>Telfort</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="brand" type="radio" value="XS4ALL" />
+                                <span>XS4ALL</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="col s4">
+                        <label>Application variant:</label>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="variant" type="radio" value="User Acceptance" checked />
+                                <span>User Acceptance</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="variant" value="Play Store" type="radio" />
+                                <span>Play Store</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="variant" value="System Integration" type="radio" />
+                                <span>System Integration</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="variant" value="Pre-Production" type="radio" />
+                                <span>Pre-Production</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field col s4">
+                        <label>Version code:</label>
+                        <input placeholder="Code" id="code" type="text" class="validate">
+                    </div>
+                    <div class="input-field col s4">
+                        <label>Version name:</label>
+                        <input placeholder="Version" id="name" type="text" class="validate">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        <label>Alert channel:</label>
+                        <p>
+                            <label>
+                                <input class="with-gap" name="channel" value="builds" type="radio" />
+                                <span>#android-builds</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="channel" value="release" type="radio" />
+                                <span>#android-release</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="channel" value="team" type="radio" checked />
+                                <span>#android-team</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="channel" value="tests" type="radio" />
+                                <span>#android-tests</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="channel" value="tv" type="radio" />
+                                <span>#android-tv</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="col s4">
+                        <label>Index in search:</label>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="index" type="radio" value="true" />
+                                <span>Hell yeah!</span>
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                <input class="with-gap" name="index" type="radio" value="false" checked />
+                                <span>Nah</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field col s4">
+                        <label>Changelog:</label>
+                        <textarea class="materialize-textarea" placeholder="Changelog" id="changelog"></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <div class="fixed-action-btn" onclick="ask()">
+                <a class="btn-floating btn-large red">
+                    <i class="large material-icons">cloud_upload</i>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

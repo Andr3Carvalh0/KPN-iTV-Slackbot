@@ -1,0 +1,70 @@
+[
+	{
+		"file": [
+			"IoBridge.java",
+			"PlainSocketImpl.java",
+			"RealBufferedSource.java",
+			"NativeCrypto.java",
+			"ConscryptFileDescriptorSocket.java"
+		],
+		"cause": "Unable to connect to the video stream"
+	},
+	{
+		"file": [
+			"RealConnection.java",
+			"TrustManagerImpl.java"
+		],
+		"cause": "Unable to connect to the video stream (SSL Pinning)"
+	},
+	{
+		"file": [
+			"KXmlParser.java",
+			"URL.java"
+		],
+		"cause": "Malformed manifest file"
+	},
+	{
+		"file": [
+			"MediaDrm.java"
+		],
+		"cause": "Device's OS issue"
+	},
+	{
+		"file": [
+			"DefaultDashChunkSource.java"
+		],
+		"cause": "Livestream got suck behind the live moment"
+	},
+	{
+		"file": [
+			"Http1xStream.java",
+			"HttpConnection.java"
+		],
+		"cause": "Unexpected end of stream"
+	},
+	{
+		"file": [
+			"InetAddress.java",
+			"Inet6AddressImpl.java"
+		],
+		"cause": "Unable to resolve the host of the video stream"
+	},
+	{
+		"file": [
+			"ArrayList.java"
+		],
+		"cause": "Trying to access a invalid position of a list (IndexOutOfBounds)"
+	},
+	{
+		"file": [
+			"NativeSsl.java"
+		],
+		"cause": "The SSL protocol isn't supported. This is due to an older Android version/Video BE configuration"
+	},
+	{
+		"file": [
+			"SafeCastContext.java"
+		],
+		"cause": "Issues setting up ChromeCast"
+	}
+]
