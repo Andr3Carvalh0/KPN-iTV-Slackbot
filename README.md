@@ -2,10 +2,7 @@
 
 ##### Getting started
 
-Super easy! You just need to clone the repository 🙃. You can do it either manually or use the following command (don't
-forget to replace `$PORT` with the port number of your VPN/Stepping Stone):
-
-`curl -sSLO ec2-35-178-170-151.eu-west-2.compute.amazonaws.com/iTV.sh; sh iTV.sh -p $PORT -u https://gitlab.itvaas.prod.aws.kpn.com/app-squad/android_utilities`
+Super easy! You just need to clone the repository 🙃.
 
 #### Configuration
 
