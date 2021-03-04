@@ -43,7 +43,7 @@ function header(review, options) {
     ].filter((e) => e !== undefined)
 
     if (items.length === 0) {
-        return undefined
+        return `${options.prefix}:`
     }
 
     return `${options.prefix} (${items.join(' | ')})${options.hasSuffix || false ? `${review.previous !== undefined ? " has updated their review!" : ` on ${time.from(review.date).format("DD/MM")} commented:`}` : `:`}`
