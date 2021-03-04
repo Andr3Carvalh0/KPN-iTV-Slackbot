@@ -33,8 +33,8 @@ while getopts "p:u:m:e:b:" opt; do
   esac
 done
 
-if [ -z "$port" ] || [ -z "$url" ]; then
-  echo "The port number or project url are missing..."
+if [ -z "$url" ]; then
+  echo "The project url is missing..."
   helpFunction
 fi
 
@@ -46,7 +46,7 @@ echo "#"
 echo "# Author: André Carvalho"
 echo "# Email: andre.daniel.carvalho@gmail.com"
 echo "# Creation Date: 03/07/2020"
-echo "# Last Modified: 22/10/2020"
+echo "# Last Modified: 08/02/2021"
 echo "#"
 echo "###################################################################"
 
@@ -62,10 +62,18 @@ fi
 echo "Cloning project & its submodules..."
 if [ -z "$branch" ]; then
   echo "Cloning using the default branch..."
-  git -c http.sslVerify=false -c http.proxy=localhost:"$port" -c https.proxy=localhost:"$port" clone --recurse-submodules $url.git || fail
+  if [ -z "$port" ]; then
+    git clone --recurse-submodules $url.git || fail
+  else
+    git -c http.sslVerify=false -c http.proxy=localhost:"$port" -c https.proxy=localhost:"$port" clone --recurse-submodules $url.git || fail
+  fi
 else
   echo "Cloning $branch branch..."
-  git -c http.sslVerify=false -c http.proxy=localhost:"$port" -c https.proxy=localhost:"$port" clone --recurse-submodules --branch "$branch" $url.git || fail
+  if [ -z "$port" ]; then
+    git clone --recurse-submodules --branch "$branch" $url.git || fail
+  else
+    git -c http.sslVerify=false -c http.proxy=localhost:"$port" -c https.proxy=localhost:"$port" clone --recurse-submodules --branch "$branch" $url.git || fail
+  fi
 fi
 
 echo "Configuring project & submodules..."
@@ -79,9 +87,12 @@ for i in "${submodules[@]}"; do
     fi
 
     cd $root/$project/$i
-    git config http.proxy localhost:"$port"
-    git config https.proxy localhost:"$port"
-    git config http.sslVerify false
+
+    if [ -n "$port" ]; then
+      git config http.proxy localhost:"$port"
+      git config https.proxy localhost:"$port"
+      git config http.sslVerify false
+    fi
   else
     echo "Failed to process $root/$project/$i"
   fi
