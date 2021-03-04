@@ -59,13 +59,6 @@ module.exports = {
                 blocks: [header.get(os)]
                     .concat(renderData(data, [rating, histogram, ratings, users], filters, os))
                     .filter(e => e !== undefined)
-                    .concat([{
-                        type: "section",
-                        text: {
-                            type: "plain_text",
-                            text: " "
-                        }
-                    }])
             }]
         }
     },
@@ -89,13 +82,6 @@ module.exports = {
                 ]
                     .concat(renderData(data, [platform, session, itv, manufacturers], filters, os))
                     .filter(e => e !== undefined)
-                    .concat([{
-                        type: "section",
-                        text: {
-                            type: "plain_text",
-                            text: " "
-                        }
-                    }])
             }]
         }
     },
@@ -119,13 +105,6 @@ module.exports = {
                 ]
                     .concat(renderData(data, [playback, carousels, moods, sportsKids], filters, os))
                     .filter(e => e !== undefined)
-                    .concat([{
-                        type: "section",
-                        text: {
-                            type: "plain_text",
-                            text: " "
-                        }
-                    }])
             }]
         }
     },
@@ -149,6 +128,19 @@ module.exports = {
                 ]
                     .concat(renderData(data, [playout, chromecastPlayout], filters, os))
                     .filter(e => e !== undefined)
+            }]
+        }
+    },
+    separator: function () {
+        return {
+            attachments: [{
+                blocks: [{
+                    type: "section",
+                    text: {
+                        type: "plain_text",
+                        text: " "
+                    }
+                }]
             }]
         }
     },

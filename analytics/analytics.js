@@ -90,17 +90,23 @@ function process(user, data, os) {
     })
     const hasPlayback = playback.attachments[0].blocks.length > 1
 
+    const transformation = [
+        hasAnalytics ? analytics : undefined,
+        hasGeneral ? general : undefined,
+        hasUsage ? usage : undefined,
+        hasPlayback ? playback : undefined
+    ]
+        .filter(e => e !== undefined)
+        .map((e) => [e, render.separator()])
+        .flat(1)
+
     return {
         id: user.id,
         view: {
-            attachments: [
-                hasAnalytics ? analytics : undefined,
-                hasGeneral ? general : undefined,
-                hasUsage ? usage : undefined,
-                hasPlayback ? playback : undefined
-            ]
-                .filter(e => e !== undefined)
-                .map(i => i.attachments).flat(1)
+            attachments: transformation
+                .slice(0, transformation.length - 1)
+                .map(i => i.attachments)
+                .flat(1)
         }
     }
 }
