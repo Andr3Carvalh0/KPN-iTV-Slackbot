@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.chromecastPlayout !== undefined && data.chromecastPlayout.length > 0
+        return data !== undefined && data.chromecastPlayout !== undefined
     }
 }

@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.player !== undefined && data.player.length > 0
+        return data !== undefined && data.player !== undefined
     }
 }

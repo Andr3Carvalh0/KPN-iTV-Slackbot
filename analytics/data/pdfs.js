@@ -13,24 +13,23 @@ const versions = require('./../utilities/versions.js')
 module.exports = {
     android: function (path) {
         return new Promise((res, rej) => {
-            new pdf().extract(path, {})
+            new pdf().extract(path)
                 .then(data => {
-                    let iTVversions = []
-                    let amountOfUsers = []
-                    let platformVersions = []
-                    let topScreens = []
-                    let playback = []
-                    let kidsValues = []
-                    let sportsValues = []
-                    let phoneVsTablet = []
-                    let sessionDuration = []
-                    let playout = []
-                    let chromecast = []
-                    let manufacturers = []
-                    let recordingsValues = []
-                    let secondsUsed = []
-                    let popularMoods = []
-                    let popularCarousels = []
+                    let iTVversions
+                    let amountOfUsers
+                    let platformVersions
+                    let topScreens
+                    let playback
+                    let kidsValues
+                    let sportsValues
+                    let phoneVsTablet
+                    let sessionDuration
+                    let playout
+                    let chromecast
+                    let manufacturers
+                    let recordingsValues
+                    let popularMoods
+                    let popularCarousels
 
                     data.pages.forEach(function (i) {
                         const content = i.content
@@ -62,12 +61,6 @@ module.exports = {
                             if (content.filter(v => v.str.includes('Kids zone')).length > 0) {
                                 kidsValues = kids.values(content) || kids
                             }
-
-                            if (content.filter(v => v.str.includes('General')).length > 0) {
-                                if (secondsUsed.length === 0) {
-                                    secondsUsed.push(session.total(content))
-                                }
-                            }
                         } catch (e) {
                             // Probably the generated PDF has a bug :(
                         }
@@ -80,7 +73,7 @@ module.exports = {
                             platform: platformVersions,
                             screens: topScreens,
                             player: playback,
-                            sportsAndKids: [sportsValues[0], kidsValues[0]],
+                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0 ? undefined : sportsValues.concat(kidsValues),
                             devices: phoneVsTablet,
                             sessions: sessionDuration,
                             playout: playout,
@@ -88,32 +81,29 @@ module.exports = {
                             manufacturers: manufacturers,
                             recordings: recordingsValues,
                             moods: popularMoods,
-                            carousels: popularCarousels,
-                            total: (secondsUsed.length > 0) ? secondsUsed[0] : undefined
+                            carousels: popularCarousels
                         }
                     )
 
                 })
-                .catch(error => {
-                    rej(error)
-                })
+                .catch(error => rej(error))
         })
     },
     ios: function (path) {
         return new Promise((res, rej) => {
-            new pdf().extract(path, {})
+            new pdf().extract(path)
                 .then(data => {
-                    let iTVversions = []
-                    let amountOfUsers = []
-                    let platformVersions = []
-                    let playback = []
-                    let kidsValues = []
-                    let sportsValues = []
-                    let sessionDuration = []
-                    let popularMoods = []
-                    let popularCarousels = []
-                    let playout = []
-                    let chromecast = []
+                    let iTVversions
+                    let amountOfUsers
+                    let platformVersions
+                    let playback
+                    let kidsValues
+                    let sportsValues
+                    let sessionDuration
+                    let popularMoods
+                    let popularCarousels
+                    let playout
+                    let chromecast
 
                     data.pages.forEach(function (i) {
                         const content = i.content
@@ -148,7 +138,7 @@ module.exports = {
                             version: iTVversions,
                             users: amountOfUsers,
                             platform: platformVersions,
-                            sportsAndKids: [sportsValues[0], kidsValues[0]],
+                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0 ? undefined : sportsValues.concat(kidsValues),
                             sessions: sessionDuration,
                             player: playback,
                             moods: popularMoods,
@@ -158,9 +148,7 @@ module.exports = {
                         }
                     )
                 })
-                .catch(error => {
-                    rej(error)
-                })
+                .catch(error => rej(error))
         })
     }
 }

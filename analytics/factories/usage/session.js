@@ -15,8 +15,5 @@ module.exports = {
     },
     isValid: function (data) {
         return data !== undefined && data.sessions !== undefined
-    },
-    topic: function () {
-        return "session"
     }
 }
