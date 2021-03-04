@@ -55,11 +55,11 @@ module.exports = {
                             }
 
                             if (content.filter(v => v.str.includes('Sports section')).length > 0) {
-                                sportsValues = sports.values(content) || sports
+                                sportsValues = sports.values(content) || sportsValues
                             }
 
                             if (content.filter(v => v.str.includes('Kids zone')).length > 0) {
-                                kidsValues = kids.values(content) || kids
+                                kidsValues = kids.values(content) || kidsValues
                             }
                         } catch (e) {
                             // Probably the generated PDF has a bug :(
@@ -73,7 +73,9 @@ module.exports = {
                             platform: platformVersions,
                             screens: topScreens,
                             player: playback,
-                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0 ? undefined : sportsValues.concat(kidsValues),
+                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0
+                                ? undefined
+                                : sportsValues.concat(kidsValues),
                             devices: phoneVsTablet,
                             sessions: sessionDuration,
                             playout: playout,
@@ -122,11 +124,11 @@ module.exports = {
                             }
 
                             if (content.filter(v => v.str.includes('Sports section')).length > 0) {
-                                sportsValues = sports.values(content, 'iOS Users') || sports
+                                sportsValues = sports.values(content, 'iOS Users') || sportsValues
                             }
 
                             if (content.filter(v => v.str.includes('Kids zone')).length > 0) {
-                                kidsValues = kids.values(content, 'iOS') || kids
+                                kidsValues = kids.values(content, 'iOS') || kidsValues
                             }
                         } catch (e) {
                             // Probably the generated PDF has a bug :(
