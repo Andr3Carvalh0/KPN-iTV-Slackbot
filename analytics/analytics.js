@@ -122,7 +122,7 @@ module.exports = {
                     data['released'] = version
 
                     Promise.allSettled([
-                        fetchBigQuery(version, data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(".", ""), 10)),
+                        fetchBigQuery(version, data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10)),
                         fetchStoreInformation(version, ANDROID)
                     ])
                         .then((result) => {
@@ -167,7 +167,6 @@ module.exports = {
                             res(options.map(e => process(e, data, IOS)))
                         })
                         .catch((error) => rej(error))
-
                 })
                 .catch(err => rej(err))
         })
