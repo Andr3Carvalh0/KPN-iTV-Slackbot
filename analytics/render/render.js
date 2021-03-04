@@ -1,6 +1,7 @@
 const arrayUtilities = require('./../../utilities/collections/collections.js')
 const carousels = require('./../factories/usage/carousels.js')
 const chromecastPlayout = require('./../factories/usage/chromecast_content_playout.js')
+const colors = require('./../../utilities/others/colors.js')
 const header = require('./../factories/header.js')
 const histogram = require('./../factories/general/histogram.js')
 const itv = require('./../factories/general/iTV.js')
@@ -134,6 +135,7 @@ module.exports = {
     separator: function () {
         return {
             attachments: [{
+                color: colors.ANDROID,
                 blocks: [{
                     type: "section",
                     text: {
