@@ -9,10 +9,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.chromecastPlayout, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.amount)
+            name: ((e) => e.name),
+            value: ((e) => e.amount)
         }, {
-            "suffix": "plays"
+            suffix: "plays"
         })
     },
     isValid: function (data) {

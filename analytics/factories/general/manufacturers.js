@@ -9,10 +9,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.manufacturers, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.amount)
+            name: ((e) => e.name),
+            value: ((e) => e.amount)
         }, {
-            "suffix": "devices"
+            suffix: "devices"
         })
     },
     isValid: function (data) {

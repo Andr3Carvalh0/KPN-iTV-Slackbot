@@ -14,7 +14,7 @@ module.exports = {
         return (e !== undefined && e.length > 0) ? e[0].cause : undefined
     },
     add: function (key, reason) {
-        return new Promise((res, rej) => {
+        return new Promise((res) => {
             userdefined.add(key, reason)
             res()
         })

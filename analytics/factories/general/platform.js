@@ -14,10 +14,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.platform, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.percentage)
+            name: ((e) => e.name),
+            value: ((e) => e.percentage)
         }, {
-            "suffix": "users"
+            suffix: "users"
         })
     },
     isValid: function (data) {

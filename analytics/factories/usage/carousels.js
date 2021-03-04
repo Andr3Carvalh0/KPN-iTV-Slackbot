@@ -9,10 +9,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.carousels, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.number)
+            name: ((e) => e.name),
+            value: ((e) => e.number)
         }, {
-            "suffix": "clicks"
+            suffix: "clicks"
         })
     },
     isValid: function (data) {

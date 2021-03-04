@@ -9,8 +9,8 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.ratingsPerVersion, {
-            'name': ((e) => e.version),
-            'value': ((e) => `*average:* ${e.average.toFixed(2)}\t*mode:* ${e.mode}`)
+            name: ((e) => e.version),
+            value: ((e) => `*average:* ${e.average.toFixed(2)}\t*mode:* ${e.mode}`)
         })
     },
     isValid: function (data) {

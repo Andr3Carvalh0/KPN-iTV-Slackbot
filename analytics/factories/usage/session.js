@@ -9,8 +9,8 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.sessions.slice(0, 3), {
-            "name": ((e) => e.name),
-            "value": ((e) => e.percentage)
+            name: ((e) => e.name),
+            value: ((e) => e.percentage)
         })
     },
     isValid: function (data) {

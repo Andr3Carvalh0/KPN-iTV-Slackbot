@@ -9,10 +9,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.sportsAndKids, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.views)
+            name: ((e) => e.name),
+            value: ((e) => e.views)
         }, {
-            "suffix": "users"
+            suffix: "users"
         })
     },
     isValid: function (data) {

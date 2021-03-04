@@ -35,9 +35,7 @@ module.exports = {
     push: function (items, isCritical) {
         const table = isCritical ? CRITICAL_TABLE : NON_FATAL_TABLE
 
-        items.forEach(e => {
-            database.get(table).push(e).write()
-        })
+        items.forEach(e => database.get(table).push(e).write())
     },
     getTimestamp: function () {
         return database.get(TIMESTAMP_NAME).cloneDeep().value()

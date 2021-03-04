@@ -140,7 +140,9 @@ module.exports = {
                             version: iTVversions,
                             users: amountOfUsers,
                             platform: platformVersions,
-                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0 ? undefined : sportsValues.concat(kidsValues),
+                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0
+                                ? undefined
+                                : sportsValues.concat(kidsValues),
                             sessions: sessionDuration,
                             player: playback,
                             moods: popularMoods,

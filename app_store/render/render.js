@@ -6,10 +6,7 @@ function link(appId, reviewId) {
 
 module.exports = {
     rating: function (rating) {
-        return new Promise((res) => {
-            render.rating('App Store', rating)
-                .then((view) => res(view))
-        })
+        return render.rating('App Store', rating)
     },
     reviews: function (appId, review) {
         return render.reviews(review, {

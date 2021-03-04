@@ -133,14 +133,14 @@ module.exports = {
                         ]
                     },
                     configuration.USE_MACHINE_LEARNING && review.isToxic ? {
-                            type: "context",
-                            elements: [
-                                {
-                                    type: "mrkdwn",
-                                    text: `:triangular_flag_on_post: We recommend you to flag this review!`
-                                }
-                            ]
-                        } : undefined,
+                        type: "context",
+                        elements: [
+                            {
+                                type: "mrkdwn",
+                                text: `:triangular_flag_on_post: We recommend you to flag this review!`
+                            }
+                        ]
+                    } : undefined,
                     isUpdate ? {
                         type: "context",
                         elements: [

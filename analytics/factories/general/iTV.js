@@ -9,10 +9,10 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.version, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.number)
+            name: ((e) => e.name),
+            value: ((e) => e.number)
         }, {
-            "suffix": "users"
+            suffix: "users"
         })
     },
     isValid: function (data) {

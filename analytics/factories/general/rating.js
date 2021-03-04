@@ -45,8 +45,8 @@ module.exports = {
         ]
 
         return common.output(items, {
-            'name': ((e) => e.name),
-            'value': ((e) => e.value)
+            name: ((e) => e.name),
+            value: ((e) => e.value)
         })
     },
     isValid: function (data) {

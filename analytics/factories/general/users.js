@@ -9,8 +9,8 @@ module.exports = {
     },
     message: function (data) {
         return common.output(data.users, {
-            "name": ((e) => e.name),
-            "value": ((e) => e.amount)
+            name: ((e) => e.name),
+            value: ((e) => e.amount)
         })
     },
     isValid: function (data) {

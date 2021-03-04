@@ -11,12 +11,7 @@ function translate(items, commit) {
     return new Promise((resolve, reject) => {
         translator.translate(items)
             .then((data) => {
-                data.forEach((item, index) => {
-                    if (item.translated) {
-                        commit(index, item.text)
-                    }
-                })
-
+                data.forEach((item, index) => {if (item.translated) commit(index, item.text)})
                 resolve()
             })
             .catch(() => reject(`iOS failed to translate`))
