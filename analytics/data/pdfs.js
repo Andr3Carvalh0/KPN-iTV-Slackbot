@@ -10,149 +10,229 @@ const sports = require('./../utilities/sports.js')
 const users = require('./../utilities/users.js')
 const versions = require('./../utilities/versions.js')
 
+const APP_VERSION = 'app_version'
+const AMOUNT_USERS = 'amount_users'
+const OS_VERSION = 'os_version'
+const SCREENS = 'screens'
+const PLAYBACK = 'playback'
+const KIDS = 'kids'
+const SPORTS = 'sports'
+const DEVICE_TYPE = 'device_type'
+const SESSION_DURATION = 'session_duration'
+const DEVICE_PLAYBACK = 'device_playback'
+const CHROMECAST_PLAYBACK = 'chromecast_playback'
+const MANUFACTURERS = 'manufacturers'
+const RECORDINGS = 'recordings'
+const MOODS = 'moods'
+const CAROUSELS = 'carousels'
+
+function parse(path) {
+    return new pdf().extract(path)
+}
+
+function process(path, predicates) {
+    return new Promise((res, rej) => {
+        parse(path)
+            .then((data) => {
+                const results = new Map()
+
+                data.pages.forEach((i) => {
+                    const content = i.content
+
+                    try {
+                        predicates.forEach(e => {
+                            if (content.filter(v => v.str.includes(e.keyword)).length > 0) {
+                                e.operation.forEach(t => results.set(t.id, t.transform(content)))
+                            }
+                        })
+                    } catch (e) {
+                        // There is something wrong in the pdf, probably
+                    }
+                })
+
+                const sportsAndKids = [results.get(SPORTS), results.get(KIDS)].flat(1)
+
+                res({
+                    version: results.get(APP_VERSION),
+                    users: results.get(AMOUNT_USERS),
+                    platform: results.get(OS_VERSION),
+                    screens: results.get(SCREENS),
+                    player: results.get(PLAYBACK),
+                    sportsAndKids: sportsAndKids.filter(e => e === undefined).length === 0 ? sportsAndKids : undefined,
+                    devices: results.get(DEVICE_TYPE),
+                    sessions: results.get(SESSION_DURATION),
+                    playout: results.get(DEVICE_PLAYBACK),
+                    chromecastPlayout: results.get(CHROMECAST_PLAYBACK),
+                    manufacturers: results.get(MANUFACTURERS),
+                    recordings: results.get(RECORDINGS),
+                    moods: results.get(MOODS),
+                    carousels: results.get(CAROUSELS)
+                })
+            })
+            .catch((error) => rej(error))
+    })
+}
+
 module.exports = {
     android: function (path) {
-        return new Promise((res, rej) => {
-            new pdf().extract(path)
-                .then(data => {
-                    let iTVversions
-                    let amountOfUsers
-                    let platformVersions
-                    let topScreens
-                    let playback
-                    let kidsValues
-                    let sportsValues
-                    let phoneVsTablet
-                    let sessionDuration
-                    let playout
-                    let chromecast
-                    let manufacturers
-                    let recordingsValues
-                    let popularMoods
-                    let popularCarousels
-
-                    data.pages.forEach(function (i) {
-                        const content = i.content
-
-                        try {
-                            if (content.filter(v => v.str.includes('Android - ')).length > 0) {
-                                iTVversions = versions.app(content) || iTVversions
-                                amountOfUsers = users.values(content) || amountOfUsers
-                                platformVersions = versions.platform(content) || platformVersions
-                                topScreens = screens.values(content) || topScreens
-                                playback = player.values(content) || playback
-                                sessionDuration = session.values(content) || sessionDuration
-                                playout = player.playout(content) || playout
-                                chromecast = player.chromecastPlayout(content) || chromecast
-                                manufacturers = device.manufacturers(content) || manufacturers
-                                recordingsValues = recording.values(content) || recordingsValues
-                                popularCarousels = carousels.normal(content) || popularCarousels
-                                popularMoods = carousels.mood(content) || popularMoods
-                            }
-
-                            if (content.filter(v => v.str.includes('Android - Users')).length > 0) {
-                                phoneVsTablet = device.type(content) || phoneVsTablet
-                            }
-
-                            if (content.filter(v => v.str.includes('Sports section')).length > 0) {
-                                sportsValues = sports.values(content) || sportsValues
-                            }
-
-                            if (content.filter(v => v.str.includes('Kids zone')).length > 0) {
-                                kidsValues = kids.values(content) || kidsValues
-                            }
-                        } catch (e) {
-                            // Probably the generated PDF has a bug :(
-                        }
-                    })
-
-                    res(
-                        {
-                            version: iTVversions,
-                            users: amountOfUsers,
-                            platform: platformVersions,
-                            screens: topScreens,
-                            player: playback,
-                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0
-                                ? undefined
-                                : sportsValues.concat(kidsValues),
-                            devices: phoneVsTablet,
-                            sessions: sessionDuration,
-                            playout: playout,
-                            chromecastPlayout: chromecast,
-                            manufacturers: manufacturers,
-                            recordings: recordingsValues,
-                            moods: popularMoods,
-                            carousels: popularCarousels
-                        }
-                    )
-
-                })
-                .catch(error => rej(error))
-        })
+        return process(path, [
+            {
+                keyword: 'Kids zone',
+                operation: [
+                    {
+                        id: KIDS,
+                        transform: (content) => kids.values(content)
+                    }
+                ]
+            },
+            {
+                keyword: 'Sports section',
+                operation: [
+                    {
+                        id: SPORTS,
+                        transform: (content) => sports.values(content)
+                    }
+                ]
+            },
+            {
+                keyword: 'Android - Users',
+                operation: [
+                    {
+                        id: DEVICE_TYPE,
+                        transform: (content) => device.type(content)
+                    },
+                    {
+                        id: APP_VERSION,
+                        transform: (content) => versions.app(content)
+                    },
+                    {
+                        id: OS_VERSION,
+                        transform: (content) => versions.platform(content)
+                    },
+                    {
+                        id: MANUFACTURERS,
+                        transform: (content) => device.manufacturers(content)
+                    }
+                ]
+            },
+            {
+                keyword: 'Android - Overview',
+                operation: [
+                    {
+                        id: SESSION_DURATION,
+                        transform: (content) => session.values(content)
+                    },
+                    {
+                        id: AMOUNT_USERS,
+                        transform: (content) => users.values(content)
+                    },
+                    {
+                        id: SCREENS,
+                        transform: (content) => screens.values(content)
+                    },
+                    {
+                        id: RECORDINGS,
+                        transform: (content) => recording.values(content)
+                    },
+                    {
+                        id: PLAYBACK,
+                        transform: (content) => player.values(content)
+                    },
+                    {
+                        id: CAROUSELS,
+                        transform: (content) => carousels.normal(content)
+                    },
+                    {
+                        id: MOODS,
+                        transform: (content) => carousels.mood(content)
+                    }
+                ]
+            },
+            {
+                keyword: 'Android - Player',
+                operation: [
+                    {
+                        id: DEVICE_PLAYBACK,
+                        transform: (content) => player.playout(content)
+                    },
+                    {
+                        id: CHROMECAST_PLAYBACK,
+                        transform: (content) => player.chromecastPlayout(content)
+                    }
+                ]
+            }
+        ])
     },
     ios: function (path) {
-        return new Promise((res, rej) => {
-            new pdf().extract(path)
-                .then(data => {
-                    let iTVversions
-                    let amountOfUsers
-                    let platformVersions
-                    let playback
-                    let kidsValues
-                    let sportsValues
-                    let sessionDuration
-                    let popularMoods
-                    let popularCarousels
-                    let playout
-                    let chromecast
-
-                    data.pages.forEach(function (i) {
-                        const content = i.content
-
-                        try {
-                            if (content.filter(v => v.str.includes('iOS - ')).length > 0) {
-                                iTVversions = versions.app(content) || iTVversions
-                                amountOfUsers = users.values(content) || amountOfUsers
-                                platformVersions = versions.platform(content) || platformVersions
-                                sessionDuration = session.values(content) || sessionDuration
-                                playback = player.values(content) || playback
-                                popularCarousels = carousels.normal(content) || popularCarousels
-                                popularMoods = carousels.mood(content) || popularMoods
-                                playout = player.playout(content) || playout
-                                chromecast = player.chromecastPlayout(content) || chromecast
-                            }
-
-                            if (content.filter(v => v.str.includes('Sports section')).length > 0) {
-                                sportsValues = sports.values(content, 'iOS Users') || sportsValues
-                            }
-
-                            if (content.filter(v => v.str.includes('Kids zone')).length > 0) {
-                                kidsValues = kids.values(content, 'iOS') || kidsValues
-                            }
-                        } catch (e) {
-                            // Probably the generated PDF has a bug :(
-                        }
-                    })
-
-                    res(
-                        {
-                            version: iTVversions,
-                            users: amountOfUsers,
-                            platform: platformVersions,
-                            sportsAndKids: [sportsValues, kidsValues].filter(e => e === undefined).length > 0
-                                ? undefined
-                                : sportsValues.concat(kidsValues),
-                            sessions: sessionDuration,
-                            player: playback,
-                            moods: popularMoods,
-                            carousels: popularCarousels,
-                            playout: playout,
-                            chromecastPlayout: chromecast
-                        }
-                    )
-                })
-                .catch(error => rej(error))
-        })
+        return process(path, [
+            {
+                keyword: 'Kids zone',
+                operation: [
+                    {
+                        id: KIDS,
+                        transform: (content) => kids.values(content, 'iOS')
+                    }
+                ]
+            },
+            {
+                keyword: 'Sports section',
+                operation: [
+                    {
+                        id: SPORTS,
+                        transform: (content) => sports.values(content, 'iOS Users')
+                    }
+                ]
+            },
+            {
+                keyword: 'iOS - Users',
+                operation: [
+                    {
+                        id: APP_VERSION,
+                        transform: (content) => versions.app(content)
+                    },
+                    {
+                        id: AMOUNT_USERS,
+                        transform: (content) => users.values(content)
+                    },
+                    {
+                        id: SESSION_DURATION,
+                        transform: (content) => session.values(content)
+                    },
+                    {
+                        id: SCREENS,
+                        transform: (content) => screens.values(content)
+                    },
+                    {
+                        id: OS_VERSION,
+                        transform: (content) => versions.platform(content)
+                    }
+                ]
+            },
+            {
+                keyword: 'iOS - Features',
+                operation: [
+                    {
+                        id: DEVICE_PLAYBACK,
+                        transform: (content) => player.playout(content)
+                    },
+                    {
+                        id: CHROMECAST_PLAYBACK,
+                        transform: (content) => player.chromecastPlayout(content)
+                    },
+                    {
+                        id: CAROUSELS,
+                        transform: (content) => carousels.normal(content)
+                    },
+                    {
+                        id: MOODS,
+                        transform: (content) => carousels.mood(content)
+                    },
+                    {
+                        id: PLAYBACK,
+                        transform: (content) => player.values(content)
+                    }
+                ]
+            }
+        ])
     }
 }
