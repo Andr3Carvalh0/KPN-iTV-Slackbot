@@ -1,3 +1,5 @@
+const platforms = require('./../../../core/platforms.js')
+
 let database
 
 const ANDROID_LAST_WEEK_RATING_NAME = 'ANDROID_LAST_WEEK_RATING'
@@ -9,8 +11,7 @@ const IOS_LAST_WEEK_CRASHES_NAME = 'IOS_LAST_WEEK_CRASHES'
 const MESSAGES_NAME = 'MESSAGES'
 const LAST_SENT_RATING_NAME = 'LAST_SENT_RATING'
 
-const PLATFORM_ANDROID = 0
-const PLATFORM_IOS = 1
+const PLATFORM_ANDROID = platforms.ANDROID
 
 module.exports = {
     initialize: function (instance) {
@@ -62,7 +63,5 @@ module.exports = {
     },
     lastSentRating: function () {
         return database.get(LAST_SENT_RATING_NAME).cloneDeep().value()
-    },
-    ANDROID: PLATFORM_ANDROID,
-    IOS: PLATFORM_IOS
+    }
 }

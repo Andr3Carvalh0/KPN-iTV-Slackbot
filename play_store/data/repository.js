@@ -2,13 +2,14 @@ const androidVersions = require('./../../utilities/os/android.js')
 const configuration = require('./../../configuration/configurations.js')
 const constants = require('./../constants.js')
 const log = require('./../../utilities/debug/logger.js')
+const platforms = require('./../../core/platforms.js')
 const playstore = require('./remote/playstore.js')
 const repository = require('./../../core/store/repository.js')
 const time = require('./../../utilities/time/time.js')
 const translator = require('./../../translate/manager.js')
 
 const PLAY_STORE_ID = configuration.PLAY_STORE_APPLICATION_ID
-const PLATFORM = repository.ANDROID
+const PLATFORM = platforms.ANDROID
 
 function normalizeDevice(device, manufacturer) {
     manufacturer = manufacturer || ""

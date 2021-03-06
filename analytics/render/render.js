@@ -6,6 +6,7 @@ const histogram = require('./../factories/general/histogram.js')
 const itv = require('./../factories/general/iTV.js')
 const manufacturers = require('./../factories/general/manufacturers.js')
 const moods = require('./../factories/usage/moods.js')
+const platforms = require('./../../core/platforms.js')
 const platform = require('./../factories/general/platform.js')
 const playback = require('./../factories/usage/playback.js')
 const playout = require('./../factories/usage/content_playout.js')
@@ -16,8 +17,8 @@ const sportsKids = require('./../factories/usage/sports&kids.js')
 const users = require('./../factories/general/users.js')
 
 const MAX_BLOCKS = 2
-const PLATFORM_ANDROID = 0
-const PLATFORM_IOS = 1
+
+const PLATFORM_ANDROID = platforms.ANDROID
 
 function pick(data, items, os) {
     const result = items.filter(i => i !== undefined).filter(i => i.isValid(data))
@@ -143,7 +144,5 @@ module.exports = {
                 }]
             }]
         }
-    },
-    ANDROID: PLATFORM_ANDROID,
-    IOS: PLATFORM_IOS
+    }
 }

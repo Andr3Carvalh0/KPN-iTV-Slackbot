@@ -4,25 +4,26 @@ const configuration = require('./../configuration/configurations.js')
 const database = require('./../schedule/modules/data/database.js')
 const iOSRepository = require('./../app_store/data/repository.js')
 const log = require('./../utilities/debug/logger.js')
+const platform = require('./../core/platforms.js')
 const render = require('./render/render.js')
 const utilities = require('./data/pdfs.js')
 
 const TAG = 'analytics.js'
 const OFFSET = 0.150
 
-const ANDROID = database.ANDROID
-const IOS = database.IOS
+const ANDROID = platform.ANDROID
+const IOS = platform.IOS
 
 function crashRate(events, total) {
     return ((1 - (events / total)) * 100).toFixed(2)
 }
 
-function fetchBigQuery(version, amountOfUsers) {
+function fetchBigQuery(version, amountOfUsers, platform) {
     return new Promise((res, rej) => {
         if (configuration.DISABLE_BIG_QUERY) {
             rej('Big Query is disabled!')
         } else {
-            bigQuery.crashes(version)
+            bigQuery.crashes(version, platform)
                 .then((data) => {
                     if (amountOfUsers !== undefined) {
                         res({
@@ -122,7 +123,7 @@ module.exports = {
                     data['released'] = version
 
                     Promise.allSettled([
-                        fetchBigQuery(version, data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10)),
+                        fetchBigQuery(version, data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10), ANDROID),
                         fetchStoreInformation(version, ANDROID)
                     ])
                         .then((result) => {

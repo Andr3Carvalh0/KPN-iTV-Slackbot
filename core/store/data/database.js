@@ -1,3 +1,5 @@
+const platforms = require('./../../../core/platforms.js')
+
 let androidDatabase
 let iOSDatabase
 
@@ -5,8 +7,7 @@ const RATING_TABLE_NAME = 'RATING'
 const REVIEWS_TABLE_NAME = 'REVIEWS'
 const VERSION_TABLE_NAME = 'VERSION'
 
-const PLATFORM_ANDROID = 0
-const PLATFORM_IOS = 1
+const PLATFORM_ANDROID = platforms.ANDROID
 
 function database(platform) {
     return platform === PLATFORM_ANDROID ? androidDatabase : iOSDatabase
@@ -74,7 +75,5 @@ module.exports = {
             .filter((e) => e.id === reviewId)
             .cloneDeep()
             .value()
-    },
-    ANDROID: PLATFORM_ANDROID,
-    IOS: PLATFORM_IOS
+    }
 }

@@ -1,11 +1,12 @@
 const appstore = require('./remote/appstore.js')
 const configuration = require('./../../configuration/configurations.js')
+const platform = require('./../../core/platforms.js')
 const repository = require('./../../core/store/repository.js')
 const time = require('./../../utilities/time/time.js')
 const translator = require('./../../translate/manager.js')
 
 const APP_STORE_ID = configuration.APP_STORE_APPLICATION_ID
-const PLATFORM = repository.IOS
+const PLATFORM = platform.IOS
 
 function translate(items, commit) {
     return new Promise((resolve, reject) => {

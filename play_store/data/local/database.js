@@ -1,6 +1,7 @@
+const platform = require('./../../../core/platforms.js')
 const manager = require('./../../../core/store/data/database.js')
 
-const PLATFORM = manager.ANDROID
+const PLATFORM = platform.ANDROID
 
 module.exports = {
     initialize: function (instance) {

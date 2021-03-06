@@ -1,5 +1,6 @@
 const database = require('./data/database.js')
 const math = require('./../../utilities/math/math.js')
+const platforms = require('./../platforms.js')
 const time = require('./../../utilities/time/time.js')
 
 const MAX_DECIMAL_DIGITS_RATING = 3
@@ -107,7 +108,7 @@ module.exports = {
                                 })
                                 .catch((error) => rej(`${error}`))
                         } else {
-                            rej(`No new ${platform === this.ANDROID ? "Android" : "iOS"} reviews`)
+                            rej(`No new ${platform === platforms.ANDROID ? "Android" : "iOS"} reviews`)
                         }
                     }).catch((err) => rej(err))
             }
@@ -157,7 +158,7 @@ module.exports = {
 
             const result = []
 
-            const minReviews = platform === database.ANDROID ? ANDROID_MIN_REVIEWS : IOS_MIN_REVIEWS
+            const minReviews = platform === platforms.ANDROID ? ANDROID_MIN_REVIEWS : IOS_MIN_REVIEWS
 
             maps.forEach((v, key) => {
                 if (opts.anyAmount || v.count >= minReviews || opts.version === key) {
@@ -210,7 +211,5 @@ module.exports = {
             }
         })
     },
-    ANDROID: database.ANDROID,
-    IOS: database.IOS,
     UNKNOWN: 'unknown'
 }
