@@ -34,21 +34,34 @@ function process(path, predicates) {
     return new Promise((res, rej) => {
         parse(path)
             .then((data) => {
-                const results = new Map()
+                const results = data.pages
+                    .map(e => e.content)
+                    .map(e => {
+                        const predicate = predicates.filter(i => e.filter(v => v.str.includes(i.keyword)).length !== 0)
 
-                data.pages.forEach((i) => {
-                    const content = i.content
+                        return {
+                            keyword: predicate.length > 0 ? predicate[0].keyword : undefined,
+                            operation: predicate.length > 0 ? predicate[0].operation : undefined,
+                            content: e
+                        }
+                    })
+                    .filter(e => e.keyword !== undefined)
+                    .map(e => {
+                        const results = new Map()
 
-                    try {
-                        predicates.forEach(e => {
-                            if (content.filter(v => v.str.includes(e.keyword)).length > 0) {
-                                e.operation.forEach(t => results.set(t.id, t.transform(content)))
-                            }
-                        })
-                    } catch (e) {
-                        // There is something wrong in the pdf, probably
-                    }
-                })
+                        try {
+                            e.operation.forEach(t => results.set(t.id, t.transform(e.content)))
+                        } catch (e) {
+                            // There is something wrong in the pdf, probably
+                        }
+
+                        return results
+                    })
+                    .reduce((previous, value) => {
+                        value.forEach((value, key) => previous.set(key, value))
+
+                        return previous
+                    }, new Map())
 
                 const sportsAndKids = [results.get(SPORTS), results.get(KIDS)].flat(1)
 
