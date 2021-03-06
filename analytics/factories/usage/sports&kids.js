@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.sportsAndKids !== undefined
+        return data !== undefined && data.sportsAndKids !== undefined && data.sportsAndKids.length > 0
     }
 }

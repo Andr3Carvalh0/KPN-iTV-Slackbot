@@ -8,7 +8,7 @@ module.exports = {
         return ":black_phone: *On Device:*"
     },
     message: function (data) {
-        return common.output(data.playout, {
+        return common.output(data.devicePlayback, {
             name: ((e) => e.name),
             value: ((e) => e.amount)
         }, {
@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.playout !== undefined
+        return data !== undefined && data.devicePlayback !== undefined
     }
 }

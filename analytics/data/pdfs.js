@@ -63,19 +63,17 @@ function process(path, predicates) {
                         return previous
                     }, new Map())
 
-                const sportsAndKids = [results.get(SPORTS), results.get(KIDS)].flat(1)
-
                 res({
                     version: results.get(APP_VERSION),
                     users: results.get(AMOUNT_USERS),
                     platform: results.get(OS_VERSION),
                     screens: results.get(SCREENS),
                     player: results.get(PLAYBACK),
-                    sportsAndKids: sportsAndKids.filter(e => e === undefined).length === 0 ? sportsAndKids : undefined,
+                    sportsAndKids: [results.get(SPORTS), results.get(KIDS)].flat(1),
                     devices: results.get(DEVICE_TYPE),
                     sessions: results.get(SESSION_DURATION),
-                    playout: results.get(DEVICE_PLAYBACK),
-                    chromecastPlayout: results.get(CHROMECAST_PLAYBACK),
+                    devicePlayback: results.get(DEVICE_PLAYBACK),
+                    chromecastPlayback: results.get(CHROMECAST_PLAYBACK),
                     manufacturers: results.get(MANUFACTURERS),
                     recordings: results.get(RECORDINGS),
                     moods: results.get(MOODS),

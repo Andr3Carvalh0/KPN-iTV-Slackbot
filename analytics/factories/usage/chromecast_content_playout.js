@@ -8,7 +8,7 @@ module.exports = {
         return ":tv: *Chromecast:*"
     },
     message: function (data) {
-        return common.output(data.chromecastPlayout, {
+        return common.output(data.chromecastPlayback, {
             name: ((e) => e.name),
             value: ((e) => e.amount)
         }, {
@@ -16,6 +16,6 @@ module.exports = {
         })
     },
     isValid: function (data) {
-        return data !== undefined && data.chromecastPlayout !== undefined
+        return data !== undefined && data.chromecastPlayback !== undefined
     }
 }
