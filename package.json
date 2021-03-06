@@ -1,6 +1,6 @@
 {
   "name": "frits",
-  "version": "29.5.13",
+  "version": "29.5.14",
   "description": "## Installation * Run `npm install package.json` * Run `npm start` to start frits",
   "main": "index.js",
   "dependencies": {
