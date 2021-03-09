@@ -45,6 +45,7 @@ file. The file must include:
 	"RELEASE_CHANNEL": "${Webhook value or channel id to post messages. eg: T4V9UKUTB/B01A23PGG9E/ABABABABABABABABABABAB or ABABABABABA for a webhook or channel id, respectably}",
 	"REVIEWS_CHANNEL": "${Webhook value or channel id to post messages. eg: T4V9UKUTB/B01A23PGG9E/ABABABABABABABABABABAB or ABABABABABA for a webhook or channel id, respectably}",
 	"S3_BUCKET_ID": "${S3 Bucket ID. eg: com.kpn.aws.np.tvapps.android}",
+	"SIMPLE_MODE": ${true | false},
 	"SIGNING_SECRET": "${Token used to authenticate the normal requests. You can pick anything},
 	"SLACK_SIGNING_SECRET": "${Token used to authenticate the slack bot requests.},
 	"SLACK_TOKEN": "${Token of the bot that can read the firebase messages. eg: xoxb-XXXXXXXXXXXX-1267677649622-XXXXXXXXXXXXXXXXXXXXXXXX}",

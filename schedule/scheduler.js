@@ -1,16 +1,21 @@
 const configuration = require('./../configuration/configurations.js')
 const log = require('./../utilities/debug/logger.js')
 
-const modules = new Map([
-    ['APP_STORE', require('./modules/appstore.js')],
-    ['FIREBASE', require('./modules/firebase.js')],
-    ['FRITS', require('./modules/frits.js')],
-    ['HALO', require('./modules/halo.js')],
-    ['MAINTENANCE', require('./modules/maintenance.js')],
-    ['PLAY_STORE_ANALYTICS', require('./modules/playstore.js')],
-    ['REPORTS', require('./modules/reports.js')],
-    ['ROLLOUT', require('./modules/rollout.js')]
-])
+const modules = configuration.SIMPLE_MODE
+    ? new Map([
+        ['FRITS', require('./modules/frits.js')],
+        ['MAINTENANCE', require('./modules/maintenance.js')]
+    ])
+    : new Map([
+        ['APP_STORE', require('./modules/appstore.js')],
+        ['FIREBASE', require('./modules/firebase.js')],
+        ['FRITS', require('./modules/frits.js')],
+        ['HALO', require('./modules/halo.js')],
+        ['MAINTENANCE', require('./modules/maintenance.js')],
+        ['PLAY_STORE_ANALYTICS', require('./modules/playstore.js')],
+        ['REPORTS', require('./modules/reports.js')],
+        ['ROLLOUT', require('./modules/rollout.js')]
+    ])
 
 const timers = new Map()
 const TAG = "scheduler.js"

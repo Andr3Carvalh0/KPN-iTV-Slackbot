@@ -59,6 +59,7 @@ module.exports = {
     REVIEWS_CHANNEL: parseSlackChannel(configuration.REVIEWS_CHANNEL),
     S3_BUCKET_ID: configuration.S3_BUCKET_ID,
     SIGNING_SECRET: configuration.SIGNING_SECRET,
+    SIMPLE_MODE: configuration.SIMPLE_MODE,
     SLACK_SIGNING_SECRET: configuration.SLACK_SIGNING_SECRET,
     SLACK_TOKEN: configuration.SLACK_TOKEN,
     TEAMS_CHANNEL: parseSlackChannel(configuration.TEAMS_CHANNEL),
