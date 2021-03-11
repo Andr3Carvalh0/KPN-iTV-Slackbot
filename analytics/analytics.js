@@ -23,18 +23,18 @@ function fetchBigQuery(amountOfUsers, platform) {
         if (platform === ANDROID ? configuration.DISABLE_ANDROID_BIG_QUERY : configuration.DISABLE_IOS_BIG_QUERY) {
             rej('Big Query is disabled!')
         } else {
-            bigQuery.crashes(platform)
-                .then((data) => {
-                    if (amountOfUsers !== undefined) {
+            if (amountOfUsers === undefined) {
+                rej('Invalid number of users!')
+            } else {
+                bigQuery.crashes(platform)
+                    .then((data) => {
                         res({
                             percentage: crashRate(data, (amountOfUsers * OFFSET)),
                             lastWeekPercentage: database.crashes(platform)
                         })
-                    } else {
-                        rej('Invalid number of users!')
-                    }
-                })
-                .catch((error) => rej(error))
+                    })
+                    .catch((error) => rej(error))
+            }
         }
     })
 }
