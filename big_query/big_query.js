@@ -3,7 +3,8 @@ const {BigQuery: Big_query} = require('@google-cloud/bigquery')
 const platforms = require('./../core/platforms.js')
 
 const PROJECT_ID = configuration.BIG_QUERY_PROJECT_ID
-const ANDROID_TABLE_ID = configuration.BIG_QUERY_TABLE_ID
+const ANDROID_TABLE_ID = configuration.BIG_QUERY_ANDROID_TABLE_ID
+const IOS_TABLE_ID = configuration.BIG_QUERY_IOS_TABLE_ID
 const TABLE_SOURCE = configuration.BIG_QUERY_TABLE_SOURCE
 
 const client = new Big_query({
@@ -12,11 +13,11 @@ const client = new Big_query({
 })
 
 function table(platform) {
-    return `${PROJECT_ID}.${TABLE_SOURCE}.${ANDROID_TABLE_ID}`
+    return `${PROJECT_ID}.${TABLE_SOURCE}.${platform === platforms.ANDROID ? ANDROID_TABLE_ID : IOS_TABLE_ID}`
 }
 
 function crashesForVersion(version, platform) {
-    return `SELECT COUNT(DISTINCT event_id) as count FROM ${table(platform)} WHERE application.display_version = '${version}' AND is_fatal = true AND DATE(event_timestamp) BETWEEN DATE_SUB(current_date(), INTERVAL 6 DAY) and current_date()`
+    return `SELECT COUNT(DISTINCT event_id) as count FROM ${table(platform)} WHERE is_fatal = true AND DATE(event_timestamp) BETWEEN DATE_SUB(current_date(), INTERVAL 6 DAY) and current_date()`
 }
 
 module.exports = {

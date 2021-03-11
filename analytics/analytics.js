@@ -9,7 +9,7 @@ const render = require('./render/render.js')
 const utilities = require('./data/pdfs.js')
 
 const TAG = 'analytics.js'
-const OFFSET = 0.150
+const OFFSET = 1.315
 
 const ANDROID = platform.ANDROID
 const IOS = platform.IOS
@@ -20,15 +20,15 @@ function crashRate(events, total) {
 
 function fetchBigQuery(version, amountOfUsers, platform) {
     return new Promise((res, rej) => {
-        if (configuration.DISABLE_BIG_QUERY) {
+        if (platform === ANDROID ? configuration.DISABLE_ANDROID_BIG_QUERY : configuration.DISABLE_IOS_BIG_QUERY) {
             rej('Big Query is disabled!')
         } else {
             bigQuery.crashes(version, platform)
                 .then((data) => {
                     if (amountOfUsers !== undefined) {
                         res({
-                            percentage: crashRate(data, (amountOfUsers + amountOfUsers * OFFSET)),
-                            lastWeekPercentage: database.crashes(ANDROID)
+                            percentage: crashRate(data, (amountOfUsers * OFFSET)),
+                            lastWeekPercentage: database.crashes(platform)
                         })
                     } else {
                         rej('Invalid number of users!')
@@ -63,7 +63,7 @@ function fetchStoreInformation(version, platform) {
     })
 }
 
-function process(user, data, os) {
+function renderViews(user, data, os) {
     const analytics = render.analytics(data, {
         platform: os,
         filters: user.analytics || []
@@ -112,6 +112,35 @@ function process(user, data, os) {
     }
 }
 
+function process(data, options, version, platform) {
+    return new Promise((res, rej) => {
+        data['released'] = version
+
+        Promise.allSettled([
+            fetchBigQuery(version, 210120, platform),
+            fetchStoreInformation(version, platform)
+        ])
+            .then((result) => {
+                if (result[0].status === "fulfilled") {
+                    data['crashes'] = result[0].value
+
+                    database.updateCrashesValue(result[0].value.percentage, platform)
+                }
+
+                if (result[1].status === "fulfilled") {
+                    data['rating'] = result[1].value.rating
+                    data['histogram'] = result[1].value.histogram
+                    data['ratingsPerVersion'] = result[1].value.release
+
+                    database.updateRatingValue(result[1].value.rating.detail, platform)
+                }
+
+                res(options.map(e => renderViews(e, data, platform)))
+            })
+            .catch((error) => rej(error))
+    })
+}
+
 module.exports = {
     android: function (path, options) {
         return new Promise((res, rej) => {
@@ -119,30 +148,8 @@ module.exports = {
                 .then(data => {
                     log.d(TAG, 'Android Extracted information from pdf')
 
-                    const version = androidRepository.version()
-                    data['released'] = version
-
-                    Promise.allSettled([
-                        fetchBigQuery(version, data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10), ANDROID),
-                        fetchStoreInformation(version, ANDROID)
-                    ])
-                        .then((result) => {
-                            if (result[0].status === "fulfilled") {
-                                data['crashes'] = result[0].value
-
-                                database.updateCrashesValue(result[0].value.percentage, ANDROID)
-                            }
-
-                            if (result[1].status === "fulfilled") {
-                                data['rating'] = result[1].value.rating
-                                data['histogram'] = result[1].value.histogram
-                                data['ratingsPerVersion'] = result[1].value.release
-
-                                database.updateRatingValue(result[1].value.rating.detail, ANDROID)
-                            }
-
-                            res(options.map(e => process(e, data, ANDROID)))
-                        })
+                    process(data, options, androidRepository.version(), ANDROID)
+                        .then((views) => res(views))
                         .catch((error) => rej(error))
                 })
                 .catch(err => rej(err))
@@ -154,19 +161,8 @@ module.exports = {
                 .then(data => {
                     log.d(TAG, 'iOS Extracted information from pdf')
 
-                    const version = iOSRepository.version()
-                    data['released'] = version
-
-                    fetchStoreInformation(version, IOS)
-                        .then((result) => {
-                            data['rating'] = result.rating
-                            data['histogram'] = result.histogram
-                            data['ratingsPerVersion'] = result.release
-
-                            database.updateRatingValue(result.rating.detail, IOS)
-
-                            res(options.map(e => process(e, data, IOS)))
-                        })
+                    process(data, options, iOSRepository.version(), IOS)
+                        .then((views) => res(views))
                         .catch((error) => rej(error))
                 })
                 .catch(err => rej(err))

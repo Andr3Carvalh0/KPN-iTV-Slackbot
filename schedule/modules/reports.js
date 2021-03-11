@@ -22,33 +22,27 @@ module.exports = {
         if (!configuration.DISABLE_FRIDAY_REPORTS) {
             const hour = parseInt(timer.now('H'))
 
-            if (timer.day() === date.FRIDAY) {
-                if (hour >= timer.BEGIN_DAY && hour < END_SCHEDULE) {
-                    attachments.hasReport()
-                        .then((data) => {
-                            analytics.android(data, [{id: configuration.RELEASE_CHANNEL}])
-                                .then((views) => {
-                                    views.forEach(e => {
-                                        notify(e.id, e.view)
-                                            .then(() => log.i(TAG, `Android Friday reports sent for ${e.id}!`))
-                                            .catch((error) => log.e(TAG, `${e.id} thrown error: ${error}`))
-                                    })
-                                })
-                                .catch((err) => log.d(TAG, err))
+            const data = 'resources/reports/report5.pdf'
 
-                            analytics.ios(data, [{id: configuration.IOS_RELEASE_CHANNEL}])
-                                .then((views) => {
-                                    views.forEach(e => {
-                                        notify(e.id, e.view)
-                                            .then(() => log.i(TAG, `iOS Friday reports sent for ${e.id}!`))
-                                            .catch((error) => log.e(TAG, `${e.id} thrown error: ${error}`))
-                                    })
-                                })
-                                .catch((err) => log.d(TAG, err))
-                        })
-                        .catch((err) => log.d(TAG, err))
-                }
-            }
+            analytics.android(data, [{id: configuration.RELEASE_CHANNEL}])
+                .then((views) => {
+                    views.forEach(e => {
+                        notify(e.id, e.view)
+                            .then(() => log.i(TAG, `Android Friday reports sent for ${e.id}!`))
+                            .catch((error) => log.e(TAG, `${e.id} thrown error: ${error}`))
+                    })
+                })
+                .catch((err) => log.d(TAG, err))
+
+            analytics.ios(data, [{id: configuration.IOS_RELEASE_CHANNEL}])
+                .then((views) => {
+                    views.forEach(e => {
+                        notify(e.id, e.view)
+                            .then(() => log.i(TAG, `iOS Friday reports sent for ${e.id}!`))
+                            .catch((error) => log.e(TAG, `${e.id} thrown error: ${error}`))
+                    })
+                })
+                .catch((err) => log.d(TAG, err))
         }
     }
 }
