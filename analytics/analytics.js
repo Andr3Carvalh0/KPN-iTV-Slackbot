@@ -18,12 +18,12 @@ function crashRate(events, total) {
     return ((1 - (events / total)) * 100).toFixed(2)
 }
 
-function fetchBigQuery(version, amountOfUsers, platform) {
+function fetchBigQuery(amountOfUsers, platform) {
     return new Promise((res, rej) => {
         if (platform === ANDROID ? configuration.DISABLE_ANDROID_BIG_QUERY : configuration.DISABLE_IOS_BIG_QUERY) {
             rej('Big Query is disabled!')
         } else {
-            bigQuery.crashes(version, platform)
+            bigQuery.crashes(platform)
                 .then((data) => {
                     if (amountOfUsers !== undefined) {
                         res({
@@ -117,7 +117,7 @@ function process(data, options, version, platform) {
         data['released'] = version
 
         Promise.allSettled([
-            fetchBigQuery(version, 210120, platform),
+            fetchBigQuery(data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10), platform),
             fetchStoreInformation(version, platform)
         ])
             .then((result) => {

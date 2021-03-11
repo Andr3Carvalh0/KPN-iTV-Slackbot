@@ -16,18 +16,18 @@ function table(platform) {
     return `${PROJECT_ID}.${TABLE_SOURCE}.${platform === platforms.ANDROID ? ANDROID_TABLE_ID : IOS_TABLE_ID}`
 }
 
-function crashesForVersion(version, platform) {
+function crashesQuery(platform) {
     return `SELECT COUNT(DISTINCT event_id) as count FROM ${table(platform)} WHERE is_fatal = true AND DATE(event_timestamp) BETWEEN DATE_SUB(current_date(), INTERVAL 6 DAY) and current_date()`
 }
 
 module.exports = {
-    crashes: function (version, platform) {
+    crashes: function (platform) {
         return new Promise((res, rej) => {
             if (version.length === 0) {
                 rej("Empty version")
             } else {
                 client.query({
-                    query: crashesForVersion(version, platform)
+                    query: crashesQuery(platform)
                 })
                     .then(data => {
                         if (data.length === 0) {
