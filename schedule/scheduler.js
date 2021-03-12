@@ -2,12 +2,14 @@ const configuration = require('./../configuration/configurations.js')
 const log = require('./../utilities/debug/logger.js')
 
 const modules = new Map([
-    ['APP_STORE', require('./modules/appstore.js')],
+    ['APP_STORE_RATING', require('./modules/appstore/rating.js')],
+    ['APP_STORE_REVIEWS', require('./modules/appstore/reviews.js')],
     ['FIREBASE', require('./modules/firebase.js')],
     ['FRITS', require('./modules/frits.js')],
     ['HALO', require('./modules/halo.js')],
     ['MAINTENANCE', require('./modules/maintenance.js')],
-    ['PLAY_STORE_ANALYTICS', require('./modules/playstore.js')],
+    ['PLAY_STORE_RATING', require('./modules/playstore/rating.js')],
+    ['PLAY_STORE_REVIEWS', require('./modules/playstore/reviews.js')],
     ['REPORTS', require('./modules/reports.js')],
     ['ROLLOUT', require('./modules/rollout.js')]
 ])

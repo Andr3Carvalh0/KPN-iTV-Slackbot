@@ -1,15 +1,15 @@
-const configuration = require('./../../configuration/configurations.js')
-const database = require('./data/database.js')
-const log = require('./../../utilities/debug/logger.js')
-const network = require('./../../utilities/slack/manager.js')
-const render = require('./../../play_store/render/render.js')
-const timer = require('./others/interval.js')
+const configuration = require('./../../../../configuration/configurations.js')
+const database = require('./../../data/database.js')
+const log = require('./../../../../utilities/debug/logger.js')
+const network = require('./../../../../utilities/slack/manager.js')
+const render = require('./../../../../play_store/render/render.js')
+const timer = require('./../../others/interval.js')
 
 function notify(channel, body) {
     return network.post(channel, body)
 }
 
-const TAG = 'rating.js'
+const TAG = 'rating_schedule.js'
 
 module.exports = {
     time: function () {
