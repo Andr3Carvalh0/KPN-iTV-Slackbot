@@ -23,7 +23,7 @@ file. The file must include:
 	"BUILD_COMMAND_TOKEN": "${Token that you can get on slack. eg: XXXXXXXXXXXXXXXXXXXXXXXX}",
 	"DISABLE_ANALYTICS_REPORTS": ${true | false},
 	"DISABLE_ANDROID_BIG_QUERY": ${true | false},
-    "DISABLE_IOS_BIG_QUERY": ${true | false},
+	"DISABLE_IOS_BIG_QUERY": ${true | false},
 	"DISABLE_FIREBASE_REPORTS": ${true | false},
 	"DISABLE_FRIDAY_REPORTS": ${true | false},
 	"DRY_RUN": ${true | false},
