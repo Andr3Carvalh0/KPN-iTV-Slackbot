@@ -2,7 +2,7 @@
 projects=( "" "components/" "halo/" "matcha/" "mqtt/" "network/" )
 
 ktlint_recommended_version="0.40.0"
-ktlint_remote_version="$(curl -s -X GET ec2-35-178-170-151.eu-west-2.compute.amazonaws.com/version/ktlint 2> /dev/null)"
+ktlint_remote_version="$(curl -s -X GET ec2-18-130-42-20.eu-west-2.compute.amazonaws.com/version/ktlint 2> /dev/null)"
 ktlint_version="${ktlint_remote_version:=$ktlint_recommended_version}"
 
 if [ ${#ktlint_version} -ge 10 ]; then ktlint_version="$ktlint_recommended_version"; fi
