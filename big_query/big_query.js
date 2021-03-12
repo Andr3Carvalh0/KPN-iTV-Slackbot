@@ -23,21 +23,17 @@ function crashesQuery(platform) {
 module.exports = {
     crashes: function (platform) {
         return new Promise((res, rej) => {
-            if (version.length === 0) {
-                rej("Empty version")
-            } else {
-                client.query({
-                    query: crashesQuery(platform)
+            client.query({
+                query: crashesQuery(platform)
+            })
+                .then(data => {
+                    if (data.length === 0) {
+                        rej("Not a valid response")
+                    } else {
+                        res(data[0][0].count)
+                    }
                 })
-                    .then(data => {
-                        if (data.length === 0) {
-                            rej("Not a valid response")
-                        } else {
-                            res(data[0][0].count)
-                        }
-                    })
-                    .catch(err => rej(err))
-            }
+                .catch(err => rej(err))
         })
     }
 }
