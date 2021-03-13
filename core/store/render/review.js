@@ -82,7 +82,6 @@ module.exports = {
                 ? `@here The ${header} rating went up from *${rating.previous}* to *${rating.current}* :confetti_ball:`
                 : `@here The ${header} rating went down from *${rating.previous}* to *${rating.current}* :disappointed:`
             const image = (isHappy) ? images.happy() : images.sad()
-            const description = (isHappy) ? `PORTUGAL CARALHO!!!` : `Opa.... foda-se :(`
 
             image.then((url) => {
                 res({
@@ -99,11 +98,7 @@ module.exports = {
                             {
                                 type: "image",
                                 image_url: url,
-                                alt_text: "Developed by André Carvalho",
-                                title: {
-                                    type: "plain_text",
-                                    text: description
-                                }
+                                alt_text: "Developed by André Carvalho"
                             }
                         ]
                     }]
