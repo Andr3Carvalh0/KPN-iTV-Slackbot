@@ -1,6 +1,6 @@
 const VERSIONS = [
-    {name: 'Bender', version: '1.0'},
-    {name: 'Bender', version: '1.1'},
+    {name: '(no codename)', version: '1.0'},
+    {name: '(no codename)', version: '1.1'},
     {name: 'Cupcake', version: '1.5'},
     {name: 'Donut', version: '1.6'},
     {name: 'Eclair', version: '2.0'},
@@ -26,7 +26,7 @@ const VERSIONS = [
     {name: 'Nougat', version: '7.1'},
     {name: 'Oreo', version: '8.0.0'},
     {name: 'Oreo', version: '8.1.0'},
-    {name: 'P', version: '9'},
+    {name: 'Pie', version: '9'},
     {name: 'Q', version: '10'},
     {name: 'R', version: '11'},
     {name: 'S', version: '12'}
