@@ -1,9 +1,3 @@
-const FALLBACK = {
-    api: 27,
-    name: 'André Carvalho',
-    version: '27'
-}
-
 const VERSIONS = [
     {name: 'Bender', version: '1.0'},
     {name: 'Bender', version: '1.1'},
@@ -40,13 +34,9 @@ const VERSIONS = [
 
 module.exports = {
     version: function (sdk) {
-        if (sdk === undefined) return FALLBACK
+        sdk = sdk || VERSIONS.length
 
-        const position = parseInt(sdk) - 1
-
-        if (VERSIONS.length <= position) {
-            return FALLBACK
-        }
+        const position = Math.min(parseInt(sdk) - 1, VERSIONS.length - 1)
 
         return {
             api: sdk,
