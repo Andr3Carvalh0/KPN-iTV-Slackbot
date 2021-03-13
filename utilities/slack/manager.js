@@ -19,7 +19,13 @@ module.exports = {
                         channel,
                         message.attachments
                     )
-                        .then((data) => res(data))
+                        .then((data) => {
+                            if (data.ok) {
+                                res(data)
+                            } else {
+                                rej(data.error)
+                            }
+                        })
                         .catch((error) => rej(error))
                 }
             })

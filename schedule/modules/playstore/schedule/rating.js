@@ -13,7 +13,7 @@ const TAG = 'rating_schedule.js'
 
 module.exports = {
     time: function () {
-        return timer.interval(6, 8, 0, 60)
+        return timer.interval(9, 15, 0, 60)
     },
     execute: function () {
         const messages = database.messages()
