@@ -70,5 +70,5 @@ module.exports = {
     USE_AMAZON_S3_TO_STORE_DATABASES: configuration.USE_AMAZON_S3_TO_STORE_DATABASES || false,
     USE_GOOGLE_TO_GENERATE_QR: configuration.USE_GOOGLE_TO_GENERATE_QR,
     USE_MACHINE_LEARNING: configuration.USE_MACHINE_LEARNING,
-    USE_PLAY_STORE_OAUTH_TO_FETCH_REVIEWS: configuration.USE_PLAY_STORE_OAUTH_TO_FETCH_REVIEWS
+    USE_PLAY_STORE_OAUTH_TO_FETCH_REVIEWS: filesystem.exists(filesystem.fullpath(filesystem.path(__dirname, 'secrets/play_store_credentials.json')))
 }

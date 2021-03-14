@@ -55,8 +55,7 @@ file. The file must include:
 	"TESTS_CHANNEL": "${Webhook value or channel id to post messages. eg: T4V9UKUTB/B01A23PGG9E/ABABABABABABABABABABAB or ABABABABABA for a webhook or channel id, respectably}",
 	"USE_MACHINE_LEARNING": ${true | false},
 	"USE_AMAZON_S3_TO_STORE_DATABASES": ${true | false},
-	"USE_GOOGLE_TO_GENERATE_QR": ${true | false},
-	"USE_PLAY_STORE_OAUTH_TO_FETCH_REVIEWS": ${true | false}
+	"USE_GOOGLE_TO_GENERATE_QR": ${true | false}
 }
 ```
 
