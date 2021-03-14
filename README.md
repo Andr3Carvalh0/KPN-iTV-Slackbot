@@ -14,6 +14,7 @@ file. The file must include:
 	"ADMIN_SIGNING_SECRET": "${Token used to authenticate the admin/debug requests. You can pick anything},
 	"ANDROID_TV_CHANNEL": "${Webhook value or channel id to post messages. eg: T4V9UKUTB/B01A23PGG9E/ABABABABABABABABABABAB or ABABABABABA for a webhook or channel id, respectably}",
 	"APP_STORE_APPLICATION_ID": "${The app store application id. eg: 453092149}",
+	"APPS_TEAM_CHANNEL": "${Webhook value or channel id to post messages. eg: T4V9UKUTB/B01A23PGG9E/ABABABABABABABABABABAB or ABABABABABA for a webhook or channel id, respectably}",
 	"BASE_URL": "${The url to the server location. If running locally it would be: localhost:3000/}",
 	"BIG_QUERY_ANDROID_TABLE_ID": "${Table id. eg: com_kpn_epg_ANDROID}",
 	"BIG_QUERY_IOS_TABLE_ID": "${Table id. eg: com_kpn_epg_ANDROID}",

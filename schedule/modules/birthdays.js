@@ -61,7 +61,7 @@ module.exports = {
             dates.filter(e => e.date === timer.now('DD/MM'))
                 .forEach(e => {
                     notify(
-                        configuration.TEAMS_CHANNEL,
+                        configuration.APPS_TEAM_CHANNEL,
                         render(e.title, e.description, e.picture)
                     )
                         .then(() => log.i(TAG, 'Birthday sent!'))

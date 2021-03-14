@@ -12,6 +12,7 @@ module.exports = {
     ADMIN_SIGNING_SECRET: configuration.ADMIN_SIGNING_SECRET,
     ANDROID_TV_CHANNEL: parseSlackChannel(configuration.ANDROID_TV_CHANNEL),
     APP_STORE_APPLICATION_ID: configuration.APP_STORE_APPLICATION_ID,
+    APPS_TEAM_CHANNEL: parseSlackChannel(configuration.APPS_TEAM_CHANNEL),
     APK_DIRECTORY: `resources/apks/`,
     APK_FILE_EXTENSION: `apk`,
     BASE_URL: configuration.BASE_URL,
