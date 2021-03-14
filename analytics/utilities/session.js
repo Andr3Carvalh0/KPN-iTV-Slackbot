@@ -1,4 +1,5 @@
 const common = require('./common.js')
+const texts = require('./../../utilities/strings/text.js')
 
 const SESSION_AMOUNT = 7
 const LIMIT = 20
@@ -37,8 +38,8 @@ module.exports = {
             const v1Mult = (value1.percentage.indexOf('.') === 2 && value1.percentage.length <= 5) ? 10 : 1
             const v2Mult = (value2.percentage.indexOf('.') === 2 && value2.percentage.length <= 5) ? 10 : 1
 
-            const v1 = parseInt(value1.percentage.replace(/\./g, '').replace('%', ''), 10)
-            const v2 = parseInt(value2.percentage.replace(/\./g, '').replace('%', ''), 10)
+            const v1 = texts.int(value1.percentage)
+            const v2 = texts.int(value2.percentage)
 
             return (v2 * v2Mult) - (v1 * v1Mult)
         })

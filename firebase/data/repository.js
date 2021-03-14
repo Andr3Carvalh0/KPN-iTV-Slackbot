@@ -1,6 +1,7 @@
 const database = require('./local/database.js')
 const exceptions = require('./../exceptions/exceptions.js')
 const network = require('./remote/slack.js')
+const texts = require('./../../utilities/strings/text.js')
 
 function process(item, title) {
     const error = item.error.replace('<', '').replace('>', '').split('|')
@@ -35,7 +36,7 @@ module.exports = {
                         .map(e => process(e))
                         .filter(e => !database.wasReported(e, false))
 
-                    const timestamp = data.sort((value1, value2) => parseInt(value2.time.replace(/\./g, ''), 10) - parseInt(value1.time.replace(/\./g, ''), 10))[0].time
+                    const timestamp = data.sort((value1, value2) => texts.int(value2.time) - texts.int(value1.time))[0].time
 
                     database.setTimestamp(timestamp)
                     database.push(critical, true)

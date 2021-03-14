@@ -1,4 +1,5 @@
 const common = require('./common.js')
+const texts = require('./../../utilities/strings/text.js')
 
 const PLAYBACK_COLUMNS = 3
 const PLAYBACK_AMOUNT = 6
@@ -72,7 +73,7 @@ module.exports = {
                     start: v.start,
                     stop: v.stop
                 }
-            }).sort((value1, value2) => parseInt(value2.start.replace(/\./g, ''), 10) - parseInt(value1.start.replace(/\./g, ''), 10))
+            }).sort((value1, value2) => texts.int(value2.start) - texts.int(value1.start))
     },
     playout: function (content) {
         const items = common.filter(content, {

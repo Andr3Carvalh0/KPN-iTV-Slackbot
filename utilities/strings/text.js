@@ -29,5 +29,8 @@ module.exports = {
         }
 
         return transformed
+    },
+    int: function (text) {
+        return parseInt(text.replace(/\./g, '').replace('%', ''), 10)
     }
 }

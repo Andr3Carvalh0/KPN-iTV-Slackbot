@@ -77,7 +77,7 @@ function body(item, prefix) {
 module.exports = {
     rating: function (header, rating) {
         return new Promise((res) => {
-            const isHappy = parseInt(rating.current.replace(/\./g, ''), 10) > parseInt(rating.previous.replace(/\./g, ''), 10)
+            const isHappy = text.int(rating.current) > text.int(rating.previous)
             const title = (isHappy)
                 ? `@here The ${header} rating went up from *${rating.previous}* to *${rating.current}* :confetti_ball:`
                 : `@here The ${header} rating went down from *${rating.previous}* to *${rating.current}* :disappointed:`

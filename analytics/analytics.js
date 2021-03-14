@@ -6,6 +6,7 @@ const iOSRepository = require('./../app_store/data/repository.js')
 const log = require('./../utilities/debug/logger.js')
 const platform = require('./../core/platforms.js')
 const render = require('./render/render.js')
+const texts = require('./../utilities/strings/text.js')
 const utilities = require('./data/pdfs.js')
 
 const TAG = 'analytics.js'
@@ -117,7 +118,7 @@ function process(data, options, version, platform) {
         data['released'] = version
 
         Promise.allSettled([
-            fetchBigQuery(data.users.length === 0 ? undefined : parseInt(data.users[2].amount.replace(/\./g, ""), 10), platform),
+            fetchBigQuery(data.users.length === 0 ? undefined : texts.int(data.users[2].amount), platform),
             fetchStoreInformation(version, platform)
         ])
             .then((result) => {
