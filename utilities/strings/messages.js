@@ -2,7 +2,7 @@ const utilities = require('./text.js')
 
 const SHORT_WORDS_COUNT = 10
 const MID_WORDS_COUNT = 15
-const CHANGELOG_MAX_LIMIT = 2150
+const CHANGELOG_MAX_LIMIT = 3050
 
 module.exports = {
     process: function (text, options) {

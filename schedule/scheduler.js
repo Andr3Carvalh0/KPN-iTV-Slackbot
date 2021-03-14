@@ -5,7 +5,7 @@ const modules = new Map([
     ['APP_STORE_RATING', require('./modules/appstore/rating.js')],
     ['APP_STORE_REVIEWS', require('./modules/appstore/reviews.js')],
     ['FIREBASE', require('./modules/firebase.js')],
-    ['FRITS', require('./modules/frits.js')],
+    ['BIRTHDAYS', require('./modules/birthdays.js')],
     ['HALO', require('./modules/halo.js')],
     ['MAINTENANCE', require('./modules/maintenance.js')],
     ['PLAY_STORE_RATING', require('./modules/playstore/rating.js')],
