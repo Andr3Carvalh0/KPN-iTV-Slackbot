@@ -6,6 +6,8 @@ const DEVICE_AMOUNT = 2
 const BRAND_COLUMNS = 4
 const BRAND_AMOUNT = 3
 const BRAND_OFFSET = 6
+const DEVICES_COLUMNS = 2
+const DEVICES_AMOUNT = 10
 
 module.exports = {
     type: function (content) {
@@ -61,6 +63,28 @@ module.exports = {
             amount: BRAND_AMOUNT * BRAND_COLUMNS,
             increment: BRAND_COLUMNS
         })
+    },
+    devices: function (content) {
+        let items = common.filter(content, {
+            initialQuery: 'Device Brand',
+            endQuery: 'Device Brand',
+            filter: (e) => e !== " ",
+            offset: 2,
+            amount: DEVICES_AMOUNT * DEVICES_COLUMNS
+        })
 
+        if (items === undefined) return items
+
+        items = items.filter(e => e.str.charCodeAt(0) !== 160).splice(0, DEVICES_AMOUNT * DEVICES_COLUMNS)
+
+        return common.map(items, (items, index) => {
+            return {
+                name: items[index].str,
+                amount: items[index + 1].str.replace(/,/g, '.')
+            }
+        }, {
+            amount: DEVICES_AMOUNT * DEVICES_COLUMNS,
+            increment: DEVICES_COLUMNS
+        })
     }
 }

@@ -5,6 +5,7 @@ const header = require('./../factories/header.js')
 const histogram = require('./../factories/general/histogram.js')
 const itv = require('./../factories/general/iTV.js')
 const manufacturers = require('./../factories/general/manufacturers.js')
+const models = require('./../factories/general/models.js')
 const moods = require('./../factories/usage/moods.js')
 const platforms = require('./../../core/platforms.js')
 const platform = require('./../factories/general/platform.js')
@@ -81,7 +82,7 @@ module.exports = {
                         }
                     }
                 ]
-                    .concat(renderData(data, [platform, session, itv, manufacturers], filters, os))
+                    .concat(renderData(data, [platform, session, itv, manufacturers, models], filters, os))
                     .filter(e => e !== undefined)
             }]
         }

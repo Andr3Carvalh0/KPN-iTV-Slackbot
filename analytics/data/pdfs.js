@@ -22,6 +22,7 @@ const SESSION_DURATION = 'session_duration'
 const DEVICE_PLAYBACK = 'device_playback'
 const CHROMECAST_PLAYBACK = 'chromecast_playback'
 const MANUFACTURERS = 'manufacturers'
+const DEVICES = 'devices'
 const RECORDINGS = 'recordings'
 const MOODS = 'moods'
 const CAROUSELS = 'carousels'
@@ -74,6 +75,7 @@ function process(path, predicates) {
                     sessions: results.get(SESSION_DURATION),
                     devicePlayback: results.get(DEVICE_PLAYBACK),
                     chromecastPlayback: results.get(CHROMECAST_PLAYBACK),
+                    devicesBrands: results.get(DEVICES),
                     manufacturers: results.get(MANUFACTURERS),
                     recordings: results.get(RECORDINGS),
                     moods: results.get(MOODS),
@@ -121,8 +123,8 @@ module.exports = {
                         transform: (content) => versions.platform(content)
                     },
                     {
-                        id: MANUFACTURERS,
-                        transform: (content) => device.manufacturers(content)
+                        id: DEVICES,
+                        transform: (content) => device.devices(content)
                     }
                 ]
             },
