@@ -6,7 +6,7 @@ const DEVICE_AMOUNT = 2
 const BRAND_COLUMNS = 4
 const BRAND_AMOUNT = 3
 const BRAND_OFFSET = 6
-const DEVICES_COLUMNS = 2
+const DEVICES_COLUMNS = 3
 const DEVICES_AMOUNT = 10
 
 module.exports = {
@@ -66,10 +66,10 @@ module.exports = {
     },
     devices: function (content) {
         let items = common.filter(content, {
-            initialQuery: 'Device Brand',
-            endQuery: 'Device Brand',
+            initialQuery: 'Brand',
+            endQuery: 'Brand',
             filter: (e) => e !== " ",
-            offset: 2,
+            offset: DEVICES_COLUMNS,
             amount: DEVICES_AMOUNT * DEVICES_COLUMNS
         })
 
@@ -79,8 +79,8 @@ module.exports = {
 
         return common.map(items, (items, index) => {
             return {
-                name: items[index].str,
-                amount: items[index + 1].str.replace(/,/g, '.')
+                name: `${items[index].str} ${items[index + 1].str}`,
+                amount: items[index + 2].str.replace(/,/g, '.')
             }
         }, {
             amount: DEVICES_AMOUNT * DEVICES_COLUMNS,
