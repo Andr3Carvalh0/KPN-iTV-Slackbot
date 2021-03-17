@@ -25,6 +25,7 @@ const TAG = 'index.js'
 const ADMIN = authentication.ADMIN
 const RESOURCES = authentication.RESOURCES
 const SLACK = authentication.SLACK
+const NONE = authentication.NONE
 
 function verify(req, res, next, level, action) {
     authentication.verify(req, res, next, level, action)
@@ -70,8 +71,9 @@ requirements.initialize()
         // Authenticated Routes
         app.get('/:resource', [
             (req, res, next) => verify(req, res, next, ADMIN, debugGetRoute.handle),
-            (req, res, next) => verify(req, res, next, RESOURCES, shortenerRoute.handle),
-            (req, res, next) => shortenerRoute.handleWithoutAuthentication(req, res, next)
+            (req, res, next) => verify(req, res, next, NONE, shortenerRoute.handle),
+            // (req, res, next) => verify(req, res, next, RESOURCES, shortenerRoute.handle),
+            // (req, res, next) => shortenerRoute.handleWithoutAuthentication(req, res, next)
         ])
 
         app.get('/api/:type', [(req, res, next) => verify(req, res, next, RESOURCES, api.handle)])
