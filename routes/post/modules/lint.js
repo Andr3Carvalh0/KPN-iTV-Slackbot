@@ -26,8 +26,6 @@ function process(path, url) {
     })
 }
 
-const TAG = 'lint.js'
-
 module.exports = {
     process: function (req) {
         return req.header('X-iTV-Event') === 'Lint Report'
