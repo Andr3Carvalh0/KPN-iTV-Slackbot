@@ -9,12 +9,17 @@ function notify(channel, body) {
     return network.post(channel, body)
 }
 
+const TAG = "lint.js"
+
 function process(path, url) {
     return new Promise((res, rej) => {
         manager.handle(path, url)
             .then((view) => {
                 notify(configuration.TESTS_CHANNEL, view)
-                    .then(() => res())
+                    .then((data) => {
+                        log.i(TAG, data)
+                        res()
+                    })
                     .catch((error) => rej(error))
             })
             .catch((error) => rej(error))
