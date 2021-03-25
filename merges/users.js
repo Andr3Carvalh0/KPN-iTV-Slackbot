@@ -1,14 +1,15 @@
-const accounts = new Map([
-    ["carva503", "André Carvalho"],
-    ["alvar509", "Davidaz"],
-    ["verhe532", "Jasper Verheugt"],
-    ["zine500", "Senna Zine"]
-])
+function accounts() {
+    try {
+        return new Map(require('./../configuration/secrets/gitlab_users.json'))
+    } catch (e) {
+        return new Map([])
+    }
+}
 
 module.exports = {
     route: function (id) {
-        if (accounts.has(id)) {
-            return accounts.get(id)
+        if (accounts().has(id)) {
+            return accounts().get(id)
         }
 
         return id

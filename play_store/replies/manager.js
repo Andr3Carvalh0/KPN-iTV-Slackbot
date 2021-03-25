@@ -5,8 +5,7 @@ const text = require('./../../utilities/strings/text.js')
 const translation = require('./../../translate/manager.js')
 const render = require('./render/render.js')
 
-const WHITELISTED_USERS = require('./../../authentication/slack/users.json').map(e => e.name)
-const SKIP_VALIDATION = true
+const WHITELISTED_USERS = require('./../../configuration/secrets/slack_reviews_users.json').map(e => e.name)
 
 function translateReply(reply) {
     return new Promise((res) => {
@@ -28,7 +27,7 @@ function translateReply(reply) {
 
 module.exports = {
     hasPermissions: function (user) {
-        return SKIP_VALIDATION || WHITELISTED_USERS.includes(user)
+        return WHITELISTED_USERS.includes(user)
     },
     openModal: function (reviewId, messageId, user) {
         return new Promise((res) => {

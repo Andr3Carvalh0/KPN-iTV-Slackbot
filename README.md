@@ -76,9 +76,19 @@ If you intend to be able to reply to Play Store reviews/have access to all the r
 to the Play Store Keys.
 
 1. [Optional] You can control to fetch the Play Store reviews either by scrapping the Play Store page, or you can use
-   Google's API. You can control it with the flag `USE_PLAY_STORE_OAUTH_TO_FETCH_REVIEWS` in the configuration file. If
-   you opt to use Google's API you will need credentials for it, that can be downloaded in the Play Console. After that,
+   Google's API. If you opt to use Google's API you will need credentials for it, that can be downloaded in the Play Console. After that,
    save them in `configuration/secrets/play_store_credentials.json`
+2. [Optional] You will need to control who can replies to Google Play Store reviews in slack. This can be done by creating a file in
+   `configuration/secrets/slack_reviews_users.json` with the following format:
+
+```
+[
+	{
+		"name": "andre.b.carvalho",
+		"emoticon": "andre-approves"
+	}
+]
+```
 
 The last secret file, is about emails...
 

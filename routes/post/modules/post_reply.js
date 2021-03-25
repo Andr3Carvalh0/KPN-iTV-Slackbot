@@ -11,7 +11,7 @@ const BUTTON_IDENTIFIER = 'reply_review'
 const SLACK_TOKEN = configuration.SLACK_TOKEN
 const SLACK_CHANNEL = configuration.REVIEWS_CHANNEL
 
-const USERS_EMOTICONS = require('./../../../authentication/slack/users.json')
+const USERS_EMOTICONS = require('./../../../configuration/secrets/slack_reviews_users.json')
 
 function fetchMessage(token, channelId, messageId) {
     return new Promise((res, rej) => {
