@@ -14,12 +14,6 @@ const dates = [
         title: ":tada: *IT'S THE BIRTHDAY OF THE MOST KARAOKE TALENTED/WINE LOVER DEVELOPER KPN WILL EVER HAVE!!! *:tada:\nTo celebrate lets have a karaoke and drink some wine! :flag-pt:",
         description: "André Carvalho",
         picture: "https://i.imgur.com/Zns5ocu.png"
-    },
-    {
-        date: "01/04",
-        title: ":tada: *IT'S MY BIRTHDAY!!! *:tada:\n:frits::frits::frits::frits::frits: for the best owner eva! <@andre.b.carvalho> :stuck_out_tongue:",
-        description: "Frits",
-        picture: "https://i.imgur.com/EPkxZUN.png"
     }
 ]
 
