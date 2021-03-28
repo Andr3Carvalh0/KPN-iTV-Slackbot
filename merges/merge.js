@@ -116,15 +116,15 @@ function common(body, title, action, color, subject) {
 
 module.exports = {
     open: function (body) {
-        return common(body, `A new merge request (*${jira.handleURL(body.object_attributes.title).replace('*', '')}*) was created :raised_hands:\n\n`, "Check it out! :sunglasses:", undefined, "Author")
+        return common(body, `A new merge request (*${jira.handleURL(body.object_attributes.title).replace('*', '').trim()}*) was created :raised_hands:\n\n`, "Check it out! :sunglasses:", undefined, "Author")
     },
     approved: function (body) {
-        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '')}*) was approved! :tada:\n`, undefined, colors.SUCCESS, "Approved by")
+        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '').trim()}*) was approved! :tada:\n`, undefined, colors.SUCCESS, "Approved by")
     },
     close: function (body) {
-        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '')}*) was closed! :no_entry:\n`, undefined, undefined, "Author")
+        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '').trim()}*) was closed! :no_entry:\n`, undefined, undefined, "Author")
     },
     update: function (body) {
-        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '')}*) was updated!\n`, "Check it out! :sunglasses:", undefined, "Author")
+        return common(body, `(*${jira.handleURL(body.object_attributes.title).replace('*', '').trim()}*) was updated!\n`, "Check it out! :sunglasses:", undefined, "Author")
     }
 }
