@@ -14,7 +14,8 @@ const PLATFORM = platforms.ANDROID
 function normalizeDevice(device, manufacturer) {
     manufacturer = manufacturer || ""
 
-    return device.split(' ')
+    return device.replace(manufacturer, '')
+        .split(' ')
         .filter((e) => e.toLowerCase() !== manufacturer.toLowerCase())
         .filter((e) => !constants.DEVICE_MANUFACTURERS.includes(e.toLowerCase()))
         .join(' ')
