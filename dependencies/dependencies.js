@@ -2,7 +2,7 @@ const version = require('./../package.json');
 
 const router = new Map(
     [
-        ['ktlint', '0.41.0'],
+        ['ktlint', '0.40.0'],
         ['frits', version.version]
     ]
 )
