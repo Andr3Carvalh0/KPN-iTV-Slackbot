@@ -71,9 +71,8 @@ requirements.initialize()
         // Authenticated Routes
         app.get('/:resource', [
             (req, res, next) => verify(req, res, next, ADMIN, debugGetRoute.handle),
-            (req, res, next) => verify(req, res, next, NONE, shortenerRoute.handle),
-            // (req, res, next) => verify(req, res, next, RESOURCES, shortenerRoute.handle),
-            // (req, res, next) => shortenerRoute.handleWithoutAuthentication(req, res, next)
+            (req, res, next) => verify(req, res, next, RESOURCES, shortenerRoute.handle),
+            (req, res, next) => shortenerRoute.handleWithoutAuthentication(req, res, next)
         ])
 
         app.get('/api/:type', [(req, res, next) => verify(req, res, next, RESOURCES, api.handle)])
